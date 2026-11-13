@@ -16,6 +16,20 @@
 swift test --package-path Packages/Ledger
 ```
 
+## 數據庫
+
+表、資料列權限同函數喺 `supabase/migrations/`。本機 Supabase 起咗之後，套用新嘅 migration：
+
+```bash
+npx supabase migration up
+```
+
+資料列權限嘅測試喺 `supabase/tests/`，用真實登入用戶嘅身份去試讀寫：
+
+```bash
+npx supabase test db
+```
+
 ## 喺模擬器跑 App
 
 1. 開 Docker Desktop，然後起本機 Supabase（第一次要下載映像檔）：
@@ -26,6 +40,12 @@ swift test --package-path Packages/Ledger
 
 2. 用 Xcode 開 `App/SplitLa.xcodeproj`，揀一部 iPhone 模擬器，撳 Run。
 3. 登入用 email 驗證碼。本機唔會真係寄電郵，驗證碼喺測試信箱度睇：<http://127.0.0.1:54324>。
+
+邀請連結係 `splitla://join?token=…`。喺模擬器試：
+
+```bash
+xcrun simctl openurl booted "splitla://join?token=<邀請碼>"
+```
 
 App 連去邊個 Supabase 由 `App/Config/Local.xcconfig` 決定，入面係本機開發用嘅公開金鑰，唔係秘密。
 

@@ -7,7 +7,7 @@ final class SessionModel {
         /// The saved session has not been read yet.
         case loading
         case signedOut
-        case signedIn(email: String)
+        case signedIn(SignedInUser)
     }
 
     private(set) var state: State = .loading
@@ -19,8 +19,8 @@ final class SessionModel {
 
     /// Follows sign-in and sign-out for as long as the app runs.
     func observe() async {
-        for await email in auth.sessionChanges() {
-            state = email.map { .signedIn(email: $0) } ?? .signedOut
+        for await user in auth.sessionChanges() {
+            state = user.map { .signedIn($0) } ?? .signedOut
         }
     }
 
