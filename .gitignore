@@ -4,3 +4,5 @@ DerivedData/
 xcuserdata/
 *.xcuserstate
 .swiftpm/
+supabase/.temp/
+supabase/.branches/

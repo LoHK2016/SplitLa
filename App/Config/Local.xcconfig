@@ -1,0 +1,5 @@
+// Points the app at the local Supabase started with `npx supabase start`.
+// The key below is the well-known local development key, not a secret.
+// `$()` keeps the `//` in the URL from being read as a comment.
+SUPABASE_URL = http:/$()/127.0.0.1:54321
+SUPABASE_ANON_KEY = sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH
