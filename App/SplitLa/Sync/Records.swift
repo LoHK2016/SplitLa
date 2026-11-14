@@ -81,6 +81,21 @@ struct SplitRow: Codable, Hashable, Sendable {
     }
 }
 
+/// The plates behind an Expense split by plates: each kind of plate, and how many each Member took.
+/// The money comes from the exact amounts; the server checks these agree with them.
+struct PlatesRow: Codable, Hashable, Sendable {
+    struct PlateKind: Codable, Hashable, Sendable {
+        var kind: String
+        var name: String
+        var priceCents: Int
+        var colorIndex: Int
+    }
+
+    var types: [PlateKind]
+    /// Member id (lowercase) to the number of plates of each kind, in the order of `types`.
+    var counts: [String: [Int]]
+}
+
 struct ExpenseRow: Codable, Identifiable, Hashable, Sendable {
     let id: UUID
     let groupId: UUID
@@ -92,6 +107,7 @@ struct ExpenseRow: Codable, Identifiable, Hashable, Sendable {
     var paidBy: UUID
     var split: SplitRow
     var hasServiceCharge: Bool
+    var plates: PlatesRow?
     var deletedAt: String?
 
     var isDeleted: Bool { deletedAt != nil }

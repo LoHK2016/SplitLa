@@ -45,6 +45,44 @@ struct PlateType: Codable, Hashable, Identifiable {
     ]
 }
 
+extension PlateType {
+    /// A kind of plate as saved with an Expense.
+    init(saved: PlatesRow.PlateKind) {
+        self.init(
+            kind: Kind(rawValue: saved.kind) ?? .custom, name: saved.name,
+            price: Money(cents: saved.priceCents).plain, colorIndex: saved.colorIndex)
+    }
+}
+
+extension PlatesRow {
+    /// The plates as counted in the form, ready to save. Nil while a price is not valid.
+    init?(types: [PlateType], tally: PlateTally) {
+        guard tally.prices.count == types.count else { return nil }
+        self.init(
+            types: zip(types, tally.prices).map { type, price in
+                PlateKind(kind: type.kind.rawValue, name: type.name.trimmed, priceCents: price.cents, colorIndex: type.colorIndex)
+            },
+            counts: tally.counts.filter { $0.value.contains { $0 > 0 } }.reduce(into: [:]) { result, entry in
+                result[entry.key.rawValue.lowercased()] = Array(entry.value.prefix(types.count))
+            })
+    }
+
+    /// The saved plates, back in the form the counters work with.
+    var tally: PlateTally {
+        PlateTally(
+            prices: types.map { Money(cents: $0.priceCents) },
+            counts: Dictionary(uniqueKeysWithValues: counts.map { (MemberID($0.key.lowercased()), $0.value) }))
+    }
+
+    /// How many plates of each kind one Member took, leaving out the kinds they took none of.
+    func plates(of member: UUID) -> [(type: PlateType, count: Int)] {
+        let row = counts[member.uuidString.lowercased()] ?? []
+        return zip(types, row).compactMap { kind, count in
+            count > 0 ? (PlateType(saved: kind), count) : nil
+        }
+    }
+}
+
 /// The plates used last time on this iPhone, so the next meal at the same place is quick.
 /// A convenience only: nothing here is shared with the Group or the server.
 enum RememberedPlates {
@@ -183,5 +221,25 @@ struct PlateCounterSection: View {
         updated.prices = prices
         updated.add(amount, to: member, priceAt: index)
         plates = updated
+    }
+}
+
+/// One person's plates in a line: a coloured dot and a count for each kind they took.
+struct PlateSummary: View {
+    let plates: [(type: PlateType, count: Int)]
+
+    var body: some View {
+        HStack(spacing: 10) {
+            ForEach(Array(plates.enumerated()), id: \.offset) { position, plate in
+                HStack(spacing: 3) {
+                    PlateDot(color: plate.type.color, size: 11)
+                    Text(verbatim: "×\(plate.count)").monospacedDigit()
+                }
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(Text(verbatim: "\(plate.count) \(plate.type.displayName(position: position))"))
+            }
+        }
+        .font(.caption)
+        .foregroundStyle(.secondary)
     }
 }

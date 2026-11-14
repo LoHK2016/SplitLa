@@ -179,7 +179,8 @@ struct ExpenseFormView: View {
         }
         let input = GroupsService.ExpenseInput(
             title: title.trimmed, date: Day(date), amount: amount, paidBy: paidBy, split: split,
-            hasServiceCharge: hasServiceCharge)
+            hasServiceCharge: hasServiceCharge,
+            plates: splitMode == .plates ? tally.flatMap { PlatesRow(types: plateTypes, tally: $0) } : nil)
         do {
             let expense = try Expense(
                 id: "draft", activityID: activityID.activityID, title: input.title, date: date, amount: amount,
@@ -229,6 +230,11 @@ struct ExpenseFormView: View {
             paidBy = expense.paidBy
             hasServiceCharge = expense.hasServiceCharge
             splitMode = expense.split.isExact ? .exact : .equal
+            if let saved = expense.plates {
+                splitMode = .plates
+                plateTypes = saved.types.map(PlateType.init(saved:))
+                plates = saved.tally
+            }
             included = Set(expense.split.participants)
             for (key, cents) in expense.split.amounts ?? [:] {
                 if let member = UUID(uuidString: key) { exactTexts[member] = Money(cents: cents).plain }
