@@ -11,7 +11,7 @@ struct JoinGroupView: View {
 
     private enum Lookup {
         case loading
-        case found(groupName: String)
+        case found(groupName: String, placeholders: [GroupMember])
         case failed
     }
 
@@ -19,6 +19,8 @@ struct JoinGroupView: View {
     @State private var myName = ""
     @State private var isWorking = false
     @State private var joinFailed = false
+    /// The Placeholder Member being claimed; nil to join as a new Member.
+    @State private var claim: UUID?
 
     var body: some View {
         NavigationStack {
@@ -34,8 +36,8 @@ struct JoinGroupView: View {
                     } actions: {
                         Button("再試") { Task { await look() } }
                     }
-                case .found(let groupName):
-                    form(groupName: groupName)
+                case .found(let groupName, let placeholders):
+                    form(groupName: groupName, placeholders: placeholders)
                 }
             }
             .navigationTitle("加入群組")
@@ -49,20 +51,36 @@ struct JoinGroupView: View {
         .task { await look() }
     }
 
-    private func form(groupName: String) -> some View {
+    private func form(groupName: String, placeholders: [GroupMember]) -> some View {
         Form {
             Section {
                 LabeledContent("群組", value: groupName)
             } footer: {
                 Text("加入之後，你會見到呢個群組嘅成員同帳目。")
             }
-            Section {
-                TextField("你嘅名", text: $myName)
-                    .textContentType(.nickname)
-            } header: {
-                Text("你喺呢個群組叫咩名")
-            } footer: {
-                Text("其他成員會見到呢個名。")
+            if !placeholders.isEmpty {
+                Section {
+                    Picker("你係邊個", selection: $claim) {
+                        Text("新成員").tag(UUID?.none)
+                        ForEach(placeholders) { Text($0.name).tag(UUID?.some($0.id)) }
+                    }
+                    .pickerStyle(.inline)
+                    .labelsHidden()
+                } header: {
+                    Text("朋友有冇已經幫你入咗數？")
+                } footer: {
+                    Text("如果其中一個係你，揀返自己，之前嘅數就會跟返你。")
+                }
+            }
+            if claim == nil {
+                Section {
+                    TextField("你嘅名", text: $myName)
+                        .textContentType(.nickname)
+                } header: {
+                    Text("你喺呢個群組叫咩名")
+                } footer: {
+                    Text("其他成員會見到呢個名。")
+                }
             }
             if joinFailed {
                 Section {
@@ -80,7 +98,7 @@ struct JoinGroupView: View {
                         }
                     }
                 }
-                .disabled(myName.trimmed.isEmpty)
+                .disabled(claim == nil && myName.trimmed.isEmpty)
             }
         }
         .disabled(isWorking)
@@ -89,9 +107,10 @@ struct JoinGroupView: View {
     private func look() async {
         lookup = .loading
         do {
-            let name = try await model.service.invitedGroupName(invite: invite)
+            async let name = model.service.invitedGroupName(invite: invite)
+            async let placeholders = model.service.placeholders(invite: invite)
             if myName.isEmpty { myName = user.suggestedName }
-            lookup = .found(groupName: name)
+            lookup = .found(groupName: try await name, placeholders: try await placeholders)
         } catch {
             lookup = .failed
         }
@@ -102,7 +121,7 @@ struct JoinGroupView: View {
         joinFailed = false
         Task {
             do {
-                let id = try await model.service.join(invite: invite, myName: myName.trimmed)
+                let id = try await model.service.join(invite: invite, myName: myName.trimmed, claiming: claim)
                 dismiss()
                 onDone(id)
             } catch {

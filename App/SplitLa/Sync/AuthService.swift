@@ -29,9 +29,10 @@ struct SupabaseAuthService: AuthService {
         AsyncStream { continuation in
             let task = Task {
                 for await (_, session) in client.auth.authStateChanges {
-                    // A saved session can be past its expiry; it only counts once refreshed.
-                    let live = session.flatMap { $0.isExpired ? nil : $0 }
-                    continuation.yield(live.map { SignedInUser(id: $0.user.id, email: $0.user.email ?? "") })
+                    // A saved session past its expiry still counts: with no connection it cannot be
+                    // refreshed, and the user must still get to their saved data. If the server
+                    // later refuses to refresh it, a signed-out event follows.
+                    continuation.yield(session.map { SignedInUser(id: $0.user.id, email: $0.user.email ?? "") })
                 }
                 continuation.finish()
             }

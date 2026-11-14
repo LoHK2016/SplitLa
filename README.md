@@ -30,6 +30,14 @@ npx supabase migration up
 npx supabase test db
 ```
 
+## 個人預算私隱檢查
+
+個人預算只存喺部機。呢個檢查確保同 server 講嘢嘅程式碼掂唔到佢：
+
+```bash
+scripts/check-personal-budget-privacy.sh
+```
+
 ## 喺模擬器跑 App
 
 1. 開 Docker Desktop，然後起本機 Supabase（第一次要下載映像檔）：
@@ -45,6 +53,16 @@ npx supabase test db
 
 ```bash
 xcrun simctl openurl booted "splitla://join?token=<邀請碼>"
+```
+
+模擬器開唔到飛行模式。要試離線，可以停咗本機嘅 API 閘道再重開 App，試完啟動返：
+
+```bash
+docker stop supabase_kong_SplitLa
+```
+
+```bash
+docker start supabase_kong_SplitLa
 ```
 
 App 連去邊個 Supabase 由 `App/Config/Local.xcconfig` 決定，入面係本機開發用嘅公開金鑰，唔係秘密。

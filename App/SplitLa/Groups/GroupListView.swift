@@ -6,10 +6,7 @@ struct GroupListView: View {
     @Environment(GroupsModel.self) private var model
     let user: SignedInUser
 
-    /// Nil until the first load finishes.
-    @State private var groups: [GroupSummary]?
-    @State private var loadFailed = false
-    @State private var path: [UUID] = []
+    @State private var path: [Route] = []
     @State private var isCreating = false
 
     var body: some View {
@@ -17,22 +14,30 @@ struct GroupListView: View {
         NavigationStack(path: $path) {
             content
                 .navigationTitle("群組")
-                .navigationDestination(for: UUID.self) { id in
-                    GroupDetailView(groupID: id, user: user)
+                .navigationDestination(for: Route.self) { route in
+                    switch route {
+                    case .group(let id):
+                        GroupDetailView(groupID: id, user: user)
+                    case .activity(let group, let activity):
+                        ActivityView(groupID: group, activityID: activity)
+                    case .expense(let group, let expense):
+                        ExpenseDetailView(groupID: group, expenseID: expense)
+                    case .settlements(let group):
+                        SettlementsView(groupID: group)
+                    case .personalBudget:
+                        PersonalBudgetView()
+                    }
                 }
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) { accountMenu }
                     ToolbarItem(placement: .topBarTrailing) {
                         Button("開新群組", systemImage: "plus") { isCreating = true }
+                            .needsConnection()
                     }
                 }
-                .refreshable { await reload() }
+                .refreshable { await model.reloadAll() }
         }
-        .task { await reload() }
-        // Coming back from a Group picks up a rename made there.
-        .onChange(of: path) { _, new in
-            if new.isEmpty { Task { await reload() } }
-        }
+        .task { await model.run(for: user) }
         .sheet(isPresented: $isCreating) {
             NewGroupView(user: user, onDone: open)
         }
@@ -42,25 +47,37 @@ struct GroupListView: View {
     }
 
     @ViewBuilder private var content: some View {
-        if let groups, !groups.isEmpty {
-            List(groups) { group in
-                NavigationLink(group.name, value: group.id)
+        if let groups = model.groups, !groups.isEmpty {
+            List {
+                Section {
+                    ForEach(groups) { group in
+                        NavigationLink(group.name, value: Route.group(group.id))
+                    }
+                }
+                Section {
+                    NavigationLink(value: Route.personalBudget) {
+                        Label("我嘅個人預算", systemImage: "lock.shield")
+                    }
+                } footer: {
+                    Text("個人預算只儲喺呢部機，其他成員同 SplitLa 都睇唔到。")
+                }
             }
-        } else if groups != nil {
+        } else if model.groups != nil {
             ContentUnavailableView {
                 Label("未有群組", systemImage: "person.3")
             } description: {
                 Text("開一個群組，或者叫朋友傳條邀請連結畀你。")
             } actions: {
                 Button("開新群組") { isCreating = true }
+                    .needsConnection()
             }
-        } else if loadFailed {
+        } else if model.isOffline {
             ContentUnavailableView {
                 Label("載入唔到群組", systemImage: "wifi.exclamationmark")
             } description: {
                 Text("請檢查網絡再試。")
             } actions: {
-                Button("再試") { Task { await reload() } }
+                Button("再試") { Task { await model.reloadAll() } }
             }
         } else {
             ProgressView()
@@ -79,21 +96,11 @@ struct GroupListView: View {
         }
     }
 
-    private func reload() async {
-        do {
-            groups = try await model.service.myGroups()
-            loadFailed = false
-        } catch is CancellationError {
-        } catch {
-            loadFailed = true
-        }
-    }
-
     /// Shows a Group the user has just opened or joined.
     private func open(_ id: UUID) {
         Task {
-            await reload()
-            path = [id]
+            await model.reload(id)
+            path = [.group(id)]
         }
     }
 }

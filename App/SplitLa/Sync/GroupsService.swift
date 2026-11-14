@@ -2,7 +2,7 @@ import Foundation
 import Supabase
 
 /// A Group as the list and detail screens need it.
-struct GroupSummary: Identifiable, Hashable, Decodable, Sendable {
+struct GroupSummary: Identifiable, Hashable, Codable, Sendable {
     let id: UUID
     var name: String
     /// Whoever holds this can join. Only Members can read it.
@@ -14,7 +14,7 @@ struct GroupSummary: Identifiable, Hashable, Decodable, Sendable {
     }
 }
 
-struct GroupMember: Identifiable, Hashable, Decodable, Sendable {
+struct GroupMember: Identifiable, Hashable, Codable, Sendable {
     let id: UUID
     var name: String
     /// Nil for a Placeholder Member.
@@ -74,26 +74,35 @@ struct GroupsService: Sendable {
     }
 
     /// Joins the Group an invite is for; harmless if already a Member. Returns the Group's id.
-    func join(invite: UUID, myName: String) async throws -> UUID {
-        try await client.rpc("join_group", params: ["invite": invite.uuidString, "member_name": myName])
-            .execute().value
+    /// With `claiming`, takes over that Placeholder Member instead of becoming a new Member.
+    func join(invite: UUID, myName: String, claiming placeholder: UUID? = nil) async throws -> UUID {
+        var params: [String: AnyJSON] = ["invite": .string(invite.uuidString), "member_name": .string(myName)]
+        if let placeholder { params["claim"] = .string(placeholder.uuidString) }
+        return try await client.rpc("join_group", params: params).execute().value
     }
 
-    /// Fires each time the Group or its Member list changes on the server,
+    /// The Placeholder Members someone holding this invite could claim.
+    func placeholders(invite: UUID) async throws -> [GroupMember] {
+        try await client.rpc("invite_placeholders", params: ["invite": invite.uuidString]).execute().value
+    }
+
+    /// Fires each time anything in the Group changes on the server,
     /// for as long as the stream is being read.
     func changes(in group: UUID) -> AsyncStream<Void> {
         AsyncStream { continuation in
             let task = Task {
                 let channel = client.channel("group-\(group.uuidString)")
-                let memberChanges = channel.postgresChange(
-                    AnyAction.self, table: "members", filter: .eq("group_id", value: group))
-                let groupChanges = channel.postgresChange(
-                    AnyAction.self, table: "groups", filter: .eq("id", value: group))
+                var streams = [channel.postgresChange(AnyAction.self, table: "groups", filter: .eq("id", value: group))]
+                for table in Self.groupTables {
+                    streams.append(channel.postgresChange(
+                        AnyAction.self, table: table, filter: .eq("group_id", value: group)))
+                }
                 // If this fails the screen simply stops updating by itself; pull-to-refresh still works.
                 try? await channel.subscribeWithError()
                 await withTaskGroup(of: Void.self) { tasks in
-                    tasks.addTask { for await _ in memberChanges { continuation.yield() } }
-                    tasks.addTask { for await _ in groupChanges { continuation.yield() } }
+                    for stream in streams {
+                        tasks.addTask { for await _ in stream { continuation.yield() } }
+                    }
                 }
                 continuation.finish()
                 // Reading stops by cancelling this task, so the clean-up needs its own.
@@ -102,6 +111,8 @@ struct GroupsService: Sendable {
             continuation.onTermination = { _ in task.cancel() }
         }
     }
+
+    private static let groupTables = ["members", "activities", "attendance", "expenses", "proposals", "settlements"]
 }
 
 /// The link a Member shares so a friend can join their Group.

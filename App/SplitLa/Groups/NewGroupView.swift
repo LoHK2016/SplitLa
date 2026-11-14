@@ -75,6 +75,3 @@ struct NewGroupView: View {
     }
 }
 
-extension String {
-    var trimmed: String { trimmingCharacters(in: .whitespacesAndNewlines) }
-}
