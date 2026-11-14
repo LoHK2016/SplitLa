@@ -15,37 +15,37 @@ struct PersonalBudgetView: View {
         let committed = committedSpend(for: model.identity, in: month, across: model.allStates, calendar: .current)
         List {
             Section {
-                LabeledContent("每月個人預算", value: store.budget?.description ?? "未定")
-                Button(store.budget == nil ? "定個人預算" : "改個人預算") {
+                LabeledContent("Monthly Personal Budget", value: store.budget?.description ?? String(localized: "Not set"))
+                Button(store.budget == nil ? "Set Personal Budget" as LocalizedStringKey : "Change Personal Budget") {
                     budgetText = store.budget?.plain ?? ""
                     isEditing = true
                 }
                 if store.budget != nil {
-                    Button("移除個人預算", role: .destructive) { store.set(nil) }
+                    Button("Remove Personal Budget", role: .destructive) { store.set(nil) }
                 }
             } footer: {
-                Text("你每個月社交開支嘅上限，跨晒所有群組。只儲喺呢部機：其他成員同 SplitLa 嘅伺服器都睇唔到，亦唔會知你有冇超支。")
+                Text("Your monthly limit for social spending, across all your Groups. It stays on this iPhone: other Members and SplitLa’s servers can’t see it, and nobody can tell whether you go over.")
             }
 
             Section {
-                LabeledContent("已承諾開支", value: committed.total.description)
+                LabeledContent("Committed Spend", value: committed.total.description)
                 if let budget = store.budget {
                     let remaining = committed.remaining(of: budget)
-                    LabeledContent(remaining < .zero ? "超支" : "仲剩") {
+                    LabeledContent(remaining < .zero ? "Over by" as LocalizedStringKey : "Left") {
                         Text((remaining < .zero ? -remaining : remaining).description)
                             .foregroundStyle(remaining < .zero ? .red : .primary)
                             .fontWeight(remaining < .zero ? .semibold : .regular)
                     }
                 }
             } header: {
-                Text("\(String(month.year))年\(month.month)月")
+                Text(Calendar.current.date(from: DateComponents(year: month.year, month: month.month)) ?? Date(), format: .dateTime.year().month(.wide))
             } footer: {
-                Text("已經發生嘅開支入面你嘅份額，加埋你覆咗「去」嘅活動入面選定提案嘅份額。")
+                Text("Your Shares of Expenses so far, plus your Shares of Chosen Proposals for Activities you’re going to.")
             }
 
-            Section("由邊幾筆組成") {
+            Section("What Makes It Up") {
                 if committed.items.isEmpty {
-                    Text("今個月未有任何開支或者選定提案。").foregroundStyle(.secondary)
+                    Text("No Expenses or Chosen Proposals this month yet.").foregroundStyle(.secondary)
                 }
                 ForEach(Array(committed.items.enumerated()), id: \.offset) { _, item in
                     HStack {
@@ -54,24 +54,24 @@ struct PersonalBudgetView: View {
                             Text(activityName(item.activityID)).font(.caption).foregroundStyle(.secondary)
                         }
                         Spacer()
-                        if case .chosenProposal = item.source { Tag("選定提案", tint: .green) }
+                        if case .chosenProposal = item.source { Tag("Chosen Proposal", tint: .green) }
                         Text(item.amount.description)
                     }
                 }
             }
         }
-        .navigationTitle("個人預算")
+        .navigationTitle("Personal Budget")
         .navigationBarTitleDisplayMode(.inline)
-        .alert("每月個人預算", isPresented: $isEditing) {
-            TextField("每月上限", text: $budgetText).keyboardType(.decimalPad)
-            Button("取消", role: .cancel) {}
-            Button("儲存") {
+        .alert("Monthly Personal Budget", isPresented: $isEditing) {
+            TextField("Monthly limit", text: $budgetText).keyboardType(.decimalPad)
+            Button("Cancel", role: .cancel) {}
+            Button("Save") {
                 if let budget = Money(typed: budgetText) { store.set(budget) } else { invalid = true }
             }
         } message: {
-            Text("只儲喺呢部機。")
+            Text("Stays on this iPhone only.")
         }
-        .alert("請入一個有效嘅金額。", isPresented: $invalid) { Button("好") {} }
+        .alert("Enter a valid amount.", isPresented: $invalid) { Button("OK") {} }
     }
 
     /// "Activity · Group" for a Committed Spend item.

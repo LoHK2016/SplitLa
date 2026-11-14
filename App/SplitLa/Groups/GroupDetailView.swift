@@ -31,41 +31,41 @@ struct GroupDetailView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Menu {
-                    Button("改群組名", systemImage: "pencil") {
+                    Button("Rename Group", systemImage: "pencil") {
                         newName = model.context(groupID)?.snapshot.group.name ?? ""
                         isRenaming = true
                     }
-                    Button("加佔位成員", systemImage: "person.badge.plus") {
+                    Button("Add Placeholder Member", systemImage: "person.badge.plus") {
                         placeholderName = ""
                         isAddingPlaceholder = true
                     }
-                    Button("退出群組", systemImage: "rectangle.portrait.and.arrow.right", role: .destructive) {
+                    Button("Leave Group", systemImage: "rectangle.portrait.and.arrow.right", role: .destructive) {
                         isConfirmingLeave = true
                     }
                 } label: {
-                    Label("更多", systemImage: "ellipsis.circle")
+                    Label("More", systemImage: "ellipsis.circle")
                 }
                 .needsConnection()
             }
         }
-        .alert("改群組名", isPresented: $isRenaming) {
-            TextField("群組名", text: $newName)
-            Button("取消", role: .cancel) {}
-            Button("儲存") { change { try await $0.rename(groupID, to: newName.trimmed) } }
+        .alert("Rename Group", isPresented: $isRenaming) {
+            TextField("Group name", text: $newName)
+            Button("Cancel", role: .cancel) {}
+            Button("Save") { change { try await $0.rename(groupID, to: newName.trimmed) } }
                 .disabled(newName.trimmed.isEmpty)
         }
-        .alert("加佔位成員", isPresented: $isAddingPlaceholder) {
-            TextField("佢個名", text: $placeholderName)
-            Button("取消", role: .cancel) {}
-            Button("加入") { change { try await $0.addPlaceholder(named: placeholderName.trimmed, to: groupID) } }
+        .alert("Add Placeholder Member", isPresented: $isAddingPlaceholder) {
+            TextField("Their name", text: $placeholderName)
+            Button("Cancel", role: .cancel) {}
+            Button("Add") { change { try await $0.addPlaceholder(named: placeholderName.trimmed, to: groupID) } }
                 .disabled(placeholderName.trimmed.isEmpty)
         } message: {
-            Text("畀未裝 App 嘅朋友用。佢之後經邀請連結加入嗰陣可以認領返。")
+            Text("For friends who don’t use the app. They can claim it when they join with the invite link.")
         }
-        .confirmationDialog("退出呢個群組？", isPresented: $isConfirmingLeave, titleVisibility: .visible) {
-            Button("退出群組", role: .destructive, action: leave)
+        .confirmationDialog("Leave this Group?", isPresented: $isConfirmingLeave, titleVisibility: .visible) {
+            Button("Leave Group", role: .destructive, action: leave)
         } message: {
-            Text("你條數會留低，其他成員仍然見到你嘅結餘。你之後可以經邀請連結返嚟認領返。")
+            Text("Your accounts stay, and other Members still see your Balance. You can come back with the invite link and claim it again.")
         }
         .sheet(isPresented: $isAddingActivity) {
             NewActivityView(groupID: groupID)
@@ -85,12 +85,12 @@ struct GroupDetailView: View {
         let balances = context.state.balances()
         let transfers = context.state.suggestedTransfers()
         return List {
-            Section("結餘") {
+            Section("Balances") {
                 ForEach(context.snapshot.members) { member in
                     HStack {
                         Text(member.name)
-                        if member.id == context.me?.id { Tag("你", tint: .blue) }
-                        if member.userID == nil { Tag("佔位") }
+                        if member.id == context.me?.id { Tag("You", tint: .blue) }
+                        if member.userID == nil { Tag("Placeholder") }
                         Spacer()
                         BalanceText(balance: balances[member.id.memberID] ?? .zero)
                     }
@@ -106,7 +106,7 @@ struct GroupDetailView: View {
                             }
                         } label: {
                             HStack {
-                                Text("\(context.name(of: transfer.from)) 畀 \(context.name(of: transfer.to))")
+                                Text("\(context.name(of: transfer.from)) pays \(context.name(of: transfer.to))")
                                     .foregroundStyle(.primary)
                                 Spacer()
                                 Text(transfer.amount.description).foregroundStyle(.primary)
@@ -117,42 +117,42 @@ struct GroupDetailView: View {
                         .needsConnection()
                     }
                 } header: {
-                    Text("建議轉帳")
+                    Text("Settle Up")
                 } footer: {
-                    Text("照住過數就找清晒。SplitLa 唔會幫你過數；用 FPS 或 PayMe 畀咗錢之後，撳一下記低。")
+                    Text("Make these payments and everyone is square. SplitLa doesn’t move money: once you’ve paid by FPS or PayMe, tap to record it.")
                 }
             }
 
             Section {
                 NavigationLink(value: Route.settlements(group: groupID)) {
-                    LabeledContent("找數記錄", value: "\(context.snapshot.settlements.filter { !$0.isDeleted }.count) 筆")
+                    LabeledContent("Settlements", value: String(localized: "\(context.snapshot.settlements.filter { !$0.isDeleted }.count) recorded"))
                 }
             }
 
-            Section("活動") {
+            Section("Activities") {
                 ForEach(context.snapshot.activities.reversed()) { activity in
                     NavigationLink(value: Route.activity(group: groupID, activity: activity.id)) {
                         VStack(alignment: .leading, spacing: 2) {
                             Text(activity.name)
-                            Text(activity.date?.display ?? "未定日期")
+                            Text(activity.date?.display ?? String(localized: "No date yet"))
                                 .font(.caption).foregroundStyle(.secondary)
                         }
                     }
                 }
-                Button("開新活動", systemImage: "plus") { isAddingActivity = true }
+                Button("New Activity", systemImage: "plus") { isAddingActivity = true }
                     .needsConnection()
             }
 
             Section {
                 ShareLink(
                     item: InviteLink.url(for: context.snapshot.group.inviteToken),
-                    subject: Text("加入「\(context.snapshot.group.name)」"),
-                    message: Text("我喺 SplitLa 開咗「\(context.snapshot.group.name)」，撳條連結加入一齊夾數。")
+                    subject: Text("Join “\(context.snapshot.group.name)”"),
+                    message: Text("I started “\(context.snapshot.group.name)” on SplitLa. Tap the link to join and split costs together.")
                 ) {
-                    Label("邀請朋友", systemImage: "square.and.arrow.up")
+                    Label("Invite Friends", systemImage: "square.and.arrow.up")
                 }
             } footer: {
-                Text("收到連結嘅人撳一下就可以加入呢個群組。")
+                Text("Anyone with the link can join this Group.")
             }
         }
         .refreshable { await model.reload(groupID) }

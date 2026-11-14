@@ -30,6 +30,12 @@ npx supabase migration up
 npx supabase test db
 ```
 
+## 語言
+
+App 以英文為主，廣東話翻譯喺 `App/SplitLa/Localizable.xcstrings`。程式碼入面所有畫面文字都寫英文，個 key 就係嗰句英文。加新文字之後，用 Xcode 打開個 catalog 補返廣東話，未翻譯嘅會顯示英文。
+
+用戶喺帳戶選單（左上角）揀 English 或者廣東話，下次開 App 生效。
+
 ## 個人預算私隱檢查
 
 個人預算只存喺部機。呢個檢查確保同 server 講嘢嘅程式碼掂唔到佢：

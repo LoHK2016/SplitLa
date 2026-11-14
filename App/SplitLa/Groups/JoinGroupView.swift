@@ -30,21 +30,21 @@ struct JoinGroupView: View {
                     ProgressView()
                 case .failed:
                     ContentUnavailableView {
-                        Label("開唔到呢條邀請連結", systemImage: "link.badge.plus")
+                        Label("This Invite Link Doesn’t Work", systemImage: "link.badge.plus")
                     } description: {
-                        Text("條連結可能已經失效，或者而家冇網絡。叫朋友再傳一次畀你。")
+                        Text("It may have expired, or you may be offline. Ask your friend to send it again.")
                     } actions: {
-                        Button("再試") { Task { await look() } }
+                        Button("Try Again") { Task { await look() } }
                     }
                 case .found(let groupName, let placeholders):
                     form(groupName: groupName, placeholders: placeholders)
                 }
             }
-            .navigationTitle("加入群組")
+            .navigationTitle("Join Group")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("取消") { dismiss() }
+                    Button("Cancel") { dismiss() }
                 }
             }
         }
@@ -54,44 +54,44 @@ struct JoinGroupView: View {
     private func form(groupName: String, placeholders: [GroupMember]) -> some View {
         Form {
             Section {
-                LabeledContent("群組", value: groupName)
+                LabeledContent("Group", value: groupName)
             } footer: {
-                Text("加入之後，你會見到呢個群組嘅成員同帳目。")
+                Text("Once you join, you’ll see this Group’s Members and accounts.")
             }
             if !placeholders.isEmpty {
                 Section {
-                    Picker("你係邊個", selection: $claim) {
-                        Text("新成員").tag(UUID?.none)
+                    Picker("Which one are you?", selection: $claim) {
+                        Text("I’m new").tag(UUID?.none)
                         ForEach(placeholders) { Text($0.name).tag(UUID?.some($0.id)) }
                     }
                     .pickerStyle(.inline)
                     .labelsHidden()
                 } header: {
-                    Text("朋友有冇已經幫你入咗數？")
+                    Text("Has a Friend Already Added You?")
                 } footer: {
-                    Text("如果其中一個係你，揀返自己，之前嘅數就會跟返你。")
+                    Text("If one of these is you, pick it and everything recorded for you comes with you.")
                 }
             }
             if claim == nil {
                 Section {
-                    TextField("你嘅名", text: $myName)
+                    TextField("Your name", text: $myName)
                         .textContentType(.nickname)
                 } header: {
-                    Text("你喺呢個群組叫咩名")
+                    Text("What Should This Group Call You?")
                 } footer: {
-                    Text("其他成員會見到呢個名。")
+                    Text("Other Members will see this name.")
                 }
             }
             if joinFailed {
                 Section {
-                    Label("加入唔到，請檢查網絡再試。", systemImage: "exclamationmark.triangle")
+                    Label("Couldn’t join. Check your connection and try again.", systemImage: "exclamationmark.triangle")
                         .foregroundStyle(.red)
                 }
             }
             Section {
                 Button(action: join) {
                     HStack {
-                        Text("加入「\(groupName)」")
+                        Text("Join “\(groupName)”")
                         if isWorking {
                             Spacer()
                             ProgressView()

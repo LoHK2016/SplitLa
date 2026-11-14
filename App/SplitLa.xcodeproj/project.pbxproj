@@ -99,9 +99,10 @@
 				};
 			};
 			buildConfigurationList = 5A000000000000000000000D /* Build configuration list for PBXProject "SplitLa" */;
-			developmentRegion = "zh-HK";
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				en,
 				"zh-HK",
 				Base,
 			);

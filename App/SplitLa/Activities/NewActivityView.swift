@@ -16,24 +16,24 @@ struct NewActivityView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("活動名") {
-                    TextField("例如：星期六火鍋", text: $name).focused($nameFocused)
+                Section("Name") {
+                    TextField("e.g. Saturday hotpot", text: $name).focused($nameFocused)
                 }
                 Section {
-                    Toggle("已經定咗日期", isOn: $hasDate)
+                    Toggle("The date is set", isOn: $hasDate)
                     if hasDate {
-                        DatePicker("日期", selection: $date, displayedComponents: .date)
+                        DatePicker("Date", selection: $date, displayedComponents: .date)
                     }
                 } footer: {
-                    Text("未定日期都開得，不過要有日期先可以選定提案。")
+                    Text("You can add the date later, but a Proposal can only be chosen once there is one.")
                 }
             }
-            .navigationTitle("開新活動")
+            .navigationTitle("New Activity")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) { Button("取消") { dismiss() } }
+                ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("建立", action: create)
+                    Button("Create", action: create)
                         .disabled(name.trimmed.isEmpty || isWorking)
                         .needsConnection()
                 }

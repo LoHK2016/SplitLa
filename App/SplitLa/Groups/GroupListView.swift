@@ -8,12 +8,14 @@ struct GroupListView: View {
 
     @State private var path: [Route] = []
     @State private var isCreating = false
+    @State private var language = AppLanguage.current
+    @State private var isShowingLanguageNote = false
 
     var body: some View {
         @Bindable var model = model
         NavigationStack(path: $path) {
             content
-                .navigationTitle("群組")
+                .navigationTitle("Groups")
                 .navigationDestination(for: Route.self) { route in
                     switch route {
                     case .group(let id):
@@ -31,13 +33,22 @@ struct GroupListView: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) { accountMenu }
                     ToolbarItem(placement: .topBarTrailing) {
-                        Button("開新群組", systemImage: "plus") { isCreating = true }
+                        Button("New Group", systemImage: "plus") { isCreating = true }
                             .needsConnection()
                     }
                 }
                 .refreshable { await model.reloadAll() }
         }
         .task { await model.run(for: user) }
+        .onChange(of: language) { _, choice in
+            choice.makePreferred()
+            isShowingLanguageNote = true
+        }
+        .alert("Language Changed", isPresented: $isShowingLanguageNote) {
+            Button("OK") {}
+        } message: {
+            Text("Close SplitLa and open it again to see it in the new language.")
+        }
         .sheet(isPresented: $isCreating) {
             NewGroupView(user: user, onDone: open)
         }
@@ -56,28 +67,28 @@ struct GroupListView: View {
                 }
                 Section {
                     NavigationLink(value: Route.personalBudget) {
-                        Label("我嘅個人預算", systemImage: "lock.shield")
+                        Label("My Personal Budget", systemImage: "lock.shield")
                     }
                 } footer: {
-                    Text("個人預算只儲喺呢部機，其他成員同 SplitLa 都睇唔到。")
+                    Text("Your Personal Budget stays on this iPhone. Other Members and SplitLa can’t see it.")
                 }
             }
         } else if model.groups != nil {
             ContentUnavailableView {
-                Label("未有群組", systemImage: "person.3")
+                Label("No Groups Yet", systemImage: "person.3")
             } description: {
-                Text("開一個群組，或者叫朋友傳條邀請連結畀你。")
+                Text("Start a Group, or ask a friend to send you an invite link.")
             } actions: {
-                Button("開新群組") { isCreating = true }
+                Button("New Group") { isCreating = true }
                     .needsConnection()
             }
         } else if model.isOffline {
             ContentUnavailableView {
-                Label("載入唔到群組", systemImage: "wifi.exclamationmark")
+                Label("Couldn’t Load Groups", systemImage: "wifi.exclamationmark")
             } description: {
-                Text("請檢查網絡再試。")
+                Text("Check your connection and try again.")
             } actions: {
-                Button("再試") { Task { await model.reloadAll() } }
+                Button("Try Again") { Task { await model.reloadAll() } }
             }
         } else {
             ProgressView()
@@ -87,12 +98,20 @@ struct GroupListView: View {
     private var accountMenu: some View {
         Menu {
             Section(user.email) {
-                Button("登出", systemImage: "rectangle.portrait.and.arrow.right", role: .destructive) {
+                Picker(selection: $language) {
+                    ForEach(AppLanguage.allCases) { option in
+                        Text(verbatim: option.name).tag(option)
+                    }
+                } label: {
+                    Label("Language", systemImage: "globe")
+                }
+                .pickerStyle(.menu)
+                Button("Sign Out", systemImage: "rectangle.portrait.and.arrow.right", role: .destructive) {
                     Task { await session.signOut() }
                 }
             }
         } label: {
-            Label("帳戶", systemImage: "person.crop.circle")
+            Label("Account", systemImage: "person.crop.circle")
         }
     }
 
@@ -102,5 +121,31 @@ struct GroupListView: View {
             await model.reload(id)
             path = [.group(id)]
         }
+    }
+}
+
+/// The languages SplitLa is written in. The choice applies from the next launch, because
+/// iOS reads an app's language once, when it starts.
+enum AppLanguage: String, CaseIterable, Identifiable {
+    case english = "en"
+    case cantonese = "zh-HK"
+
+    var id: String { rawValue }
+
+    /// Each language named in itself, so it can be found whatever the app is showing.
+    var name: String {
+        switch self {
+        case .english: "English"
+        case .cantonese: "廣東話"
+        }
+    }
+
+    /// The language the app is showing now.
+    static var current: AppLanguage {
+        Bundle.main.preferredLocalizations.first.flatMap(AppLanguage.init(rawValue:)) ?? .english
+    }
+
+    func makePreferred() {
+        UserDefaults.standard.set([rawValue], forKey: "AppleLanguages")
     }
 }

@@ -20,7 +20,7 @@ struct ExpenseDetailView: View {
                 ProgressView()
             }
         }
-        .navigationTitle("開支")
+        .navigationTitle("Expense")
         .navigationBarTitleDisplayMode(.inline)
         .failureAlert($failure)
     }
@@ -29,25 +29,25 @@ struct ExpenseDetailView: View {
         List {
             if expense.isDeleted {
                 Section {
-                    Label("呢筆開支已經刪除，唔再計入結餘。", systemImage: "trash").foregroundStyle(.red)
+                    Label("This Expense was deleted and no longer counts towards Balances.", systemImage: "trash").foregroundStyle(.red)
                 }
             }
             Section {
-                LabeledContent("名稱", value: expense.title)
-                LabeledContent("活動", value: context.activity(expense.activityId)?.name ?? "")
-                LabeledContent("日期", value: expense.date.display)
-                LabeledContent("畀錢", value: context.name(of: expense.paidBy))
-                LabeledContent("金額", value: Money(cents: expense.amountCents).description)
-                LabeledContent("分法", value: expense.split.isExact ? "逐人金額" : "平均分")
-                LabeledContent("加一服務費", value: expense.hasServiceCharge ? "有" : "冇")
-                if expense.proposalId != nil { LabeledContent("來源", value: "由選定提案轉過嚟") }
+                LabeledContent("Name", value: expense.title)
+                LabeledContent("Activity", value: context.activity(expense.activityId)?.name ?? "")
+                LabeledContent("Date", value: expense.date.display)
+                LabeledContent("Paid by", value: context.name(of: expense.paidBy))
+                LabeledContent("Amount", value: Money(cents: expense.amountCents).description)
+                LabeledContent("Split", value: expense.split.isExact ? String(localized: "Exact amounts") : String(localized: "Equally"))
+                LabeledContent("10% service charge", value: expense.hasServiceCharge ? String(localized: "Yes") : String(localized: "No"))
+                if expense.proposalId != nil { LabeledContent("From", value: String(localized: "Chosen Proposal")) }
             }
             if let ledger = expense.ledger {
-                Section("每人份額") {
+                Section("Shares") {
                     ForEach(context.snapshot.members.filter { ledger.shares[$0.id.memberID] != nil }) { member in
                         LabeledContent(member.name, value: ledger.shares[member.id.memberID]!.description)
                     }
-                    LabeledContent("實際總數", value: ledger.total.description).fontWeight(.semibold)
+                    LabeledContent("Total paid", value: ledger.total.description).fontWeight(.semibold)
                 }
             }
             HistorySection(entity: expenseID, context: context, version: expense.hashValue)
@@ -55,9 +55,9 @@ struct ExpenseDetailView: View {
         .toolbar {
             if !expense.isDeleted {
                 ToolbarItemGroup(placement: .topBarTrailing) {
-                    Button("改", systemImage: "pencil") { isEditing = true }
+                    Button("Edit", systemImage: "pencil") { isEditing = true }
                         .needsConnection()
-                    Button("刪除", systemImage: "trash", role: .destructive) { isConfirmingDelete = true }
+                    Button("Delete", systemImage: "trash", role: .destructive) { isConfirmingDelete = true }
                         .needsConnection()
                 }
             }
@@ -65,8 +65,8 @@ struct ExpenseDetailView: View {
         .sheet(isPresented: $isEditing) {
             ExpenseFormView(groupID: groupID, activityID: expense.activityId, mode: .edit(expense))
         }
-        .confirmationDialog("刪除呢筆開支？", isPresented: $isConfirmingDelete, titleVisibility: .visible) {
-            Button("刪除開支", role: .destructive) {
+        .confirmationDialog("Delete this Expense?", isPresented: $isConfirmingDelete, titleVisibility: .visible) {
+            Button("Delete Expense", role: .destructive) {
                 Task {
                     do {
                         try await model.change(groupID) { try await $0.deleteExpense(expenseID) }
@@ -77,7 +77,7 @@ struct ExpenseDetailView: View {
             }
             .needsConnection()
         } message: {
-            Text("佢唔會再計入結餘，但係仍然會留喺記錄度，全組都見到係邊個刪。")
+            Text("It will stop counting towards Balances, but stays in the history so the whole Group can see who deleted it.")
         }
     }
 }

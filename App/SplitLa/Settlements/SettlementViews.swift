@@ -29,13 +29,13 @@ struct SettlementsView: View {
                             } label: {
                                 HStack {
                                     VStack(alignment: .leading, spacing: 2) {
-                                        Text("\(context.name(of: settlement.fromMember)) 畀 \(context.name(of: settlement.toMember))")
+                                        Text("\(context.name(of: settlement.fromMember)) paid \(context.name(of: settlement.toMember))")
                                             .strikethrough(settlement.isDeleted)
                                         Text(settlement.date.display).font(.caption).foregroundStyle(.secondary)
                                     }
                                     Spacer()
                                     if settlement.isDeleted {
-                                        Tag("已刪除", tint: .red)
+                                        Tag("Deleted", tint: .red)
                                     } else {
                                         Text(Money(cents: settlement.amountCents).description)
                                     }
@@ -43,17 +43,17 @@ struct SettlementsView: View {
                                 .foregroundStyle(.primary)
                             }
                         }
-                        Button("記一筆找數", systemImage: "plus") { draft = SettlementDraft() }
+                        Button("Record a Settlement", systemImage: "plus") { draft = SettlementDraft() }
                             .needsConnection()
                     } footer: {
-                        Text("找數只係記錄。SplitLa 唔會幫你過數，亦唔會連去 FPS 或 PayMe。")
+                        Text("Settlements are only records. SplitLa doesn’t move money or connect to FPS or PayMe.")
                     }
                 }
             } else {
                 ProgressView()
             }
         }
-        .navigationTitle("找數記錄")
+        .navigationTitle("Settlements")
         .navigationBarTitleDisplayMode(.inline)
         .sheet(item: $draft) { SettlementFormView(groupID: groupID, draft: $0) }
     }
@@ -84,13 +84,13 @@ struct SettlementFormView: View {
                     ProgressView()
                 }
             }
-            .navigationTitle(draft.existing == nil ? "記一筆找數" : "找數")
+            .navigationTitle(draft.existing == nil ? "Record a Settlement" as LocalizedStringKey : "Settlement")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) { Button("取消") { dismiss() } }
+                ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
                 if !isDeleted {
                     ToolbarItem(placement: .confirmationAction) {
-                        Button("儲存", action: save)
+                        Button("Save", action: save)
                             .disabled(!isValid || isWorking)
                             .needsConnection()
                     }
@@ -106,23 +106,23 @@ struct SettlementFormView: View {
         Form {
             if isDeleted {
                 Section {
-                    Label("呢筆找數已經刪除，唔再計入結餘。", systemImage: "trash").foregroundStyle(.red)
+                    Label("This Settlement was deleted and no longer counts towards Balances.", systemImage: "trash").foregroundStyle(.red)
                 }
             }
             Section {
-                Picker("邊個畀錢", selection: $from) {
+                Picker("Paid by", selection: $from) {
                     ForEach(context.snapshot.members) { Text($0.name).tag(UUID?.some($0.id)) }
                 }
-                Picker("畀邊個", selection: $to) {
+                Picker("Paid to", selection: $to) {
                     ForEach(context.snapshot.members) { Text($0.name).tag(UUID?.some($0.id)) }
                 }
-                LabeledContent("金額") { AmountField(title: "$0", text: $amountText) }
-                DatePicker("日期", selection: $date, displayedComponents: .date)
+                LabeledContent("Amount") { AmountField(title: "$0", text: $amountText) }
+                DatePicker("Date", selection: $date, displayedComponents: .date)
             } footer: {
                 if from != nil && from == to {
-                    Text("畀錢同收錢唔可以係同一個人。").foregroundStyle(.red)
+                    Text("The payer and the person paid can’t be the same.").foregroundStyle(.red)
                 } else {
-                    Text("記低已經喺 App 以外畀咗嘅錢。SplitLa 唔處理真錢。")
+                    Text("Records money already paid outside the app. SplitLa doesn’t handle real money.")
                 }
             }
             .disabled(isDeleted)
@@ -130,7 +130,7 @@ struct SettlementFormView: View {
             if let existing = draft.existing {
                 if !isDeleted {
                     Section {
-                        Button("刪除呢筆找數", systemImage: "trash", role: .destructive) {
+                        Button("Delete Settlement", systemImage: "trash", role: .destructive) {
                             run { try await $0.deleteSettlement(existing.id) }
                         }
                         .needsConnection()

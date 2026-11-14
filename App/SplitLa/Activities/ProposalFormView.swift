@@ -17,28 +17,28 @@ struct ProposalFormView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("提案") {
-                    TextField("例如：餐廳 A", text: $title)
+                Section("Proposal") {
+                    TextField("e.g. Restaurant A", text: $title)
                 }
                 Section {
-                    Picker("金額係", selection: $isPerPerson) {
-                        Text("每人").tag(true)
-                        Text("總數").tag(false)
+                    Picker("Amount is", selection: $isPerPerson) {
+                        Text("Per person").tag(true)
+                        Text("Total").tag(false)
                     }
                     .pickerStyle(.segmented)
-                    LabeledContent(isPerPerson ? "每人預計" : "總共預計") {
+                    LabeledContent(isPerPerson ? "Amount per person" as LocalizedStringKey : "Amount in total") {
                         AmountField(title: "$0", text: $amountText)
                     }
                 } footer: {
-                    Text(isPerPerson ? "每個去嘅人畀呢個數。" : "由覆咗「去」嘅人平均分。")
+                    Text(isPerPerson ? "Everyone going pays this." as LocalizedStringKey : "Split evenly among everyone going.")
                 }
             }
-            .navigationTitle("開新提案")
+            .navigationTitle("New Proposal")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) { Button("取消") { dismiss() } }
+                ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("建立", action: create)
+                    Button("Create", action: create)
                         .disabled(title.trimmed.isEmpty || Money(typed: amountText) == nil || isWorking)
                         .needsConnection()
                 }

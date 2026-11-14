@@ -30,21 +30,21 @@ struct BalanceText: View {
 
     var body: some View {
         if balance > .zero {
-            Text("攞返 \((balance).description)").foregroundStyle(.green)
+            Text("Gets back \(balance.description)").foregroundStyle(.green)
         } else if balance < .zero {
-            Text("要畀 \((-balance).description)").foregroundStyle(.red)
+            Text("Owes \((-balance).description)").foregroundStyle(.red)
         } else {
-            Text("找清").foregroundStyle(.secondary)
+            Text("Settled").foregroundStyle(.secondary)
         }
     }
 }
 
 /// A small label beside a name or title.
 struct Tag: View {
-    let text: String
+    let text: LocalizedStringKey
     var tint: Color = .secondary
 
-    init(_ text: String, tint: Color = .secondary) {
+    init(_ text: LocalizedStringKey, tint: Color = .secondary) {
         self.text = text
         self.tint = tint
     }
@@ -83,8 +83,8 @@ private struct FailureAlert: ViewModifier {
     @Binding var message: String?
 
     func body(content: Content) -> some View {
-        content.alert("做唔到", isPresented: Binding(get: { message != nil }, set: { if !$0 { message = nil } })) {
-            Button("好") {}
+        content.alert("Couldn’t Do That", isPresented: Binding(get: { message != nil }, set: { if !$0 { message = nil } })) {
+            Button("OK") {}
         } message: {
             Text(message ?? "")
         }
@@ -101,13 +101,15 @@ extension View {
 
 /// What to tell the user when a change fails.
 func failureMessage(_ error: any Error) -> String {
-    error is URLError ? "連唔到伺服器，請檢查網絡再試。" : "伺服器唔接受呢個改動，請更新畫面再試。"
+    error is URLError
+        ? String(localized: "Can’t reach the server. Check your connection and try again.")
+        : String(localized: "The server didn’t accept this change. Refresh and try again.")
 }
 
 /// Shown across the app while there is no connection.
 struct OfflineBanner: View {
     var body: some View {
-        Label("離線緊：只可以睇上次同步嘅資料，暫時改唔到嘢。", systemImage: "wifi.slash")
+        Label("Offline: showing your last synced data. Changes are paused.", systemImage: "wifi.slash")
             .font(.footnote)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 8)
@@ -128,12 +130,12 @@ struct HistorySection: View {
     @State private var changes: [ChangeRow]?
 
     var body: some View {
-        Section("改動記錄") {
+        Section("History") {
             if let changes {
                 ForEach(changes) { change in
                     VStack(alignment: .leading, spacing: 4) {
                         HStack {
-                            Text("\(change.actorName.isEmpty ? "有人" : change.actorName) \(verb(change.action))")
+                            Text(headline(change))
                                 .font(.subheadline.weight(.medium))
                             Spacer()
                             Text(change.at.formatted(date: .abbreviated, time: .shortened))
@@ -153,12 +155,13 @@ struct HistorySection: View {
         }
     }
 
-    private func verb(_ action: String) -> String {
-        switch action {
-        case "created": "新增咗"
-        case "deleted": "刪除咗"
-        case "restored": "還原咗"
-        default: "改咗"
+    private func headline(_ change: ChangeRow) -> String {
+        let who = change.actorName.isEmpty ? String(localized: "Someone") : change.actorName
+        switch change.action {
+        case "created": return String(localized: "\(who) added it")
+        case "deleted": return String(localized: "\(who) deleted it")
+        case "restored": return String(localized: "\(who) restored it")
+        default: return String(localized: "\(who) changed it")
         }
     }
 
@@ -166,33 +169,33 @@ struct HistorySection: View {
         switch (change.before, change.after) {
         case (.expense(let old)?, .expense(let new)) where change.action == "updated":
             var lines: [String] = []
-            if old.title != new.title { lines.append("名稱：\(old.title) → \(new.title)") }
+            if old.title != new.title { lines.append(String(localized: "Name: \(old.title) → \(new.title)")) }
             if old.amountCents != new.amountCents {
-                lines.append("金額：\(Money(cents: old.amountCents)) → \(Money(cents: new.amountCents))")
+                lines.append(String(localized: "Amount: \(Money(cents: old.amountCents).description) → \(Money(cents: new.amountCents).description)"))
             }
-            if old.date != new.date { lines.append("日期：\(old.date.display) → \(new.date.display)") }
+            if old.date != new.date { lines.append(String(localized: "Date: \(old.date.display) → \(new.date.display)")) }
             if old.paidBy != new.paidBy {
-                lines.append("畀錢：\(context.name(of: old.paidBy)) → \(context.name(of: new.paidBy))")
+                lines.append(String(localized: "Paid by: \(context.name(of: old.paidBy)) → \(context.name(of: new.paidBy))"))
             }
-            if old.split != new.split { lines.append("分法：\(describe(old.split)) → \(describe(new.split))") }
+            if old.split != new.split { lines.append(String(localized: "Split: \(describe(old.split)) → \(describe(new.split))")) }
             if old.hasServiceCharge != new.hasServiceCharge {
-                lines.append("加一：\(old.hasServiceCharge ? "有" : "冇") → \(new.hasServiceCharge ? "有" : "冇")")
+                lines.append(String(localized: "Service charge: \(yesNo(old.hasServiceCharge)) → \(yesNo(new.hasServiceCharge))"))
             }
             return lines
         case (.settlement(let old)?, .settlement(let new)) where change.action == "updated":
             var lines: [String] = []
             if old.amountCents != new.amountCents {
-                lines.append("金額：\(Money(cents: old.amountCents)) → \(Money(cents: new.amountCents))")
+                lines.append(String(localized: "Amount: \(Money(cents: old.amountCents).description) → \(Money(cents: new.amountCents).description)"))
             }
             if old.fromMember != new.fromMember || old.toMember != new.toMember {
-                lines.append("\(context.name(of: old.fromMember)) 畀 \(context.name(of: old.toMember)) → \(context.name(of: new.fromMember)) 畀 \(context.name(of: new.toMember))")
+                lines.append(String(localized: "\(context.name(of: old.fromMember)) paid \(context.name(of: old.toMember)) → \(context.name(of: new.fromMember)) paid \(context.name(of: new.toMember))"))
             }
-            if old.date != new.date { lines.append("日期：\(old.date.display) → \(new.date.display)") }
+            if old.date != new.date { lines.append(String(localized: "Date: \(old.date.display) → \(new.date.display)")) }
             return lines
         case (nil, .expense(let new)):
-            return ["\(new.title)，\(Money(cents: new.amountCents))，\(context.name(of: new.paidBy)) 畀錢"]
+            return [String(localized: "\(new.title), \(Money(cents: new.amountCents).description), paid by \(context.name(of: new.paidBy))")]
         case (nil, .settlement(let new)):
-            return ["\(context.name(of: new.fromMember)) 畀 \(context.name(of: new.toMember)) \(Money(cents: new.amountCents))"]
+            return [String(localized: "\(context.name(of: new.fromMember)) paid \(context.name(of: new.toMember)) \(Money(cents: new.amountCents).description)")]
         default:
             return []
         }
@@ -200,10 +203,16 @@ struct HistorySection: View {
 
     private func describe(_ split: SplitRow) -> String {
         if split.isExact {
-            return "逐人金額（" + (split.amounts ?? [:]).sorted { $0.key < $1.key }.map {
-                "\(UUID(uuidString: $0.key).map(context.name(of:)) ?? "？") \(Money(cents: $0.value))"
-            }.joined(separator: "、") + "）"
+            let people = (split.amounts ?? [:]).sorted { $0.key < $1.key }.map {
+                "\(UUID(uuidString: $0.key).map(context.name(of:)) ?? "?") \(Money(cents: $0.value).description)"
+            }.formatted(.list(type: .and))
+            return String(localized: "Exact amounts (\(people))")
         }
-        return "平均分（" + (split.members ?? []).map(context.name(of:)).joined(separator: "、") + "）"
+        let people = (split.members ?? []).map(context.name(of:)).formatted(.list(type: .and))
+        return String(localized: "Equally (\(people))")
+    }
+
+    private func yesNo(_ value: Bool) -> String {
+        value ? String(localized: "Yes") : String(localized: "No")
     }
 }

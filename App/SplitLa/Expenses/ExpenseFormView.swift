@@ -47,9 +47,9 @@ struct ExpenseFormView: View {
             .navigationTitle(navigationTitle)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) { Button("取消") { dismiss() } }
+                ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("儲存", action: save)
+                    Button("Save", action: save)
                         .disabled(checked == nil || isWorking)
                         .needsConnection()
                 }
@@ -60,37 +60,37 @@ struct ExpenseFormView: View {
         }
     }
 
-    private var navigationTitle: String {
+    private var navigationTitle: LocalizedStringKey {
         switch mode {
-        case .new: "記一筆開支"
-        case .edit: "改開支"
-        case .convert: "轉做開支"
+        case .new: "New Expense"
+        case .edit: "Edit Expense"
+        case .convert: "Turn into Expense"
         }
     }
 
     private func form(_ context: GroupContext) -> some View {
         Form {
             Section {
-                TextField("買咗乜", text: $title)
-                LabeledContent("金額") { AmountField(title: "$0", text: $amountText) }
-                DatePicker("日期", selection: $date, displayedComponents: .date)
-                Picker("邊個畀錢", selection: $paidBy) {
+                TextField("What was it for?", text: $title)
+                LabeledContent("Amount") { AmountField(title: "$0", text: $amountText) }
+                DatePicker("Date", selection: $date, displayedComponents: .date)
+                Picker("Paid by", selection: $paidBy) {
                     ForEach(context.snapshot.members) { Text($0.name).tag(UUID?.some($0.id)) }
                 }
             } footer: {
-                if case .convert = mode { Text("資料由選定提案預先填好。改返實際金額同邊個畀錢就得。") }
+                if case .convert = mode { Text("Filled in from the Chosen Proposal. Just correct the real amount and who paid.") }
             }
 
             Section {
-                Toggle("加一服務費", isOn: $hasServiceCharge)
+                Toggle("10% service charge", isOn: $hasServiceCharge)
             } footer: {
-                Text("照餐牌價入數，開咗之後每人份額會加 10%。")
+                Text("Enter menu prices; each Share gets 10% added.")
             }
 
             Section {
-                Picker("分法", selection: $isExact) {
-                    Text("平均分").tag(false)
-                    Text("逐人金額").tag(true)
+                Picker("Split", selection: $isExact) {
+                    Text("Equally").tag(false)
+                    Text("Exact amounts").tag(true)
                 }
                 .pickerStyle(.segmented)
                 ForEach(context.snapshot.members) { member in
@@ -106,17 +106,17 @@ struct ExpenseFormView: View {
                     }
                 }
             } header: {
-                Text("邊啲人有份")
+                Text("Who Shares It")
             } footer: {
                 if let problem { Text(problem).foregroundStyle(.red) }
             }
 
             if let expense = checked?.expense {
-                Section("每人份額") {
+                Section("Shares") {
                     ForEach(context.snapshot.members.filter { expense.shares[$0.id.memberID] != nil }) { member in
                         LabeledContent(member.name, value: expense.shares[member.id.memberID]!.description)
                     }
-                    LabeledContent("實際總數", value: expense.total.description).fontWeight(.semibold)
+                    LabeledContent("Total paid", value: expense.total.description).fontWeight(.semibold)
                 }
             }
         }
@@ -160,13 +160,13 @@ struct ExpenseFormView: View {
         guard case .failure(let error) = draft else { return nil }
         switch error {
         case .noParticipants:
-            return isExact ? "未入任何人嘅金額。" : "最少要揀一個有份嘅人。"
+            return isExact ? String(localized: "No amounts entered yet.") : String(localized: "Pick at least one person.")
         case .exactAmountsMismatch(let difference):
             return difference > .zero
-                ? "逐人金額加埋比總數少咗 \(difference.description)。"
-                : "逐人金額加埋比總數多咗 \((-difference).description)。"
+                ? String(localized: "The exact amounts come to \(difference.description) less than the total.")
+                : String(localized: "The exact amounts come to \((-difference).description) more than the total.")
         default:
-            return "金額唔啱。"
+            return String(localized: "That amount isn’t right.")
         }
     }
 
