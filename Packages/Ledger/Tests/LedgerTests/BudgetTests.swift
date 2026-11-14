@@ -210,4 +210,16 @@ import Foundation
         #expect(committed.remaining(of: dollars(1000)) == dollars(200))
         #expect(committed.remaining(of: dollars(600)) == dollars(-200))
     }
+
+    @Test func fractionUsedShowsHowMuchOfThePersonalBudgetIsCommitted() {
+        let committed = CommittedSpend(items: [
+            .init(source: .expense("a"), activityID: "x", title: "a", amount: dollars(800)),
+        ])
+        #expect(committed.fractionUsed(of: dollars(1000)) == 0.8)
+        #expect(committed.fractionUsed(of: dollars(400)) == 2.0)
+        #expect(CommittedSpend(items: []).fractionUsed(of: dollars(500)) == 0)
+        // A zero budget is fully used by anything, and not used at all by nothing.
+        #expect(committed.fractionUsed(of: .zero) == 1)
+        #expect(CommittedSpend(items: []).fractionUsed(of: .zero) == 0)
+    }
 }

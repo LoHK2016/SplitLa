@@ -44,6 +44,12 @@ public struct CommittedSpend: Equatable, Sendable {
 
     /// What is left of a Personal Budget after this Committed Spend. Negative means overspent.
     public func remaining(of budget: Money) -> Money { budget - total }
+
+    /// How much of a Personal Budget this Committed Spend takes up: 0.8 is 80%, over 1 is overspent.
+    public func fractionUsed(of budget: Money) -> Double {
+        guard budget > .zero else { return total > .zero ? 1 : 0 }
+        return Double(total.cents) / Double(budget.cents)
+    }
 }
 
 extension GroupState {

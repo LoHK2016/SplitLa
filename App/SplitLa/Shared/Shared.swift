@@ -216,3 +216,39 @@ struct HistorySection: View {
         value ? String(localized: "Yes") : String(localized: "No")
     }
 }
+
+/// A Member's initial in a coloured circle. The colour comes from their id, so it stays the same
+/// everywhere and on every device. A Placeholder Member gets a dashed outline instead.
+struct Avatar: View {
+    let member: GroupMember
+    var size: CGFloat = 36
+
+    private static let palette: [(background: Color, foreground: Color)] = [
+        (Color(red: 0.95, green: 0.78, blue: 0.70), Color(red: 0.48, green: 0.18, blue: 0.08)),
+        (Color(red: 0.75, green: 0.89, blue: 0.85), Color(red: 0.05, green: 0.31, blue: 0.27)),
+        (Color(red: 0.80, green: 0.84, blue: 0.97), Color(red: 0.15, green: 0.19, blue: 0.48)),
+        (Color(red: 0.96, green: 0.88, blue: 0.64), Color(red: 0.42, green: 0.31, blue: 0.00)),
+        (Color(red: 0.91, green: 0.78, blue: 0.93), Color(red: 0.36, green: 0.12, blue: 0.42)),
+    ]
+
+    var body: some View {
+        let colors = Self.palette[Self.colorIndex(for: member.id)]
+        Text(String(member.name.prefix(1)).uppercased())
+            .font(.system(size: size * 0.42, weight: .bold, design: .rounded))
+            .frame(width: size, height: size)
+            .foregroundStyle(member.userID == nil ? Color.secondary : colors.foreground)
+            .background {
+                if member.userID == nil {
+                    Circle().strokeBorder(Color.secondary, style: StrokeStyle(lineWidth: 1.5, dash: [3, 2]))
+                } else {
+                    Circle().fill(colors.background)
+                }
+            }
+            .accessibilityHidden(true)
+    }
+
+    private static func colorIndex(for id: UUID) -> Int {
+        let bytes = withUnsafeBytes(of: id.uuid) { Array($0) }
+        return bytes.reduce(0) { ($0 + Int($1)) % palette.count }
+    }
+}

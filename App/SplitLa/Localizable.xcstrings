@@ -41,6 +41,16 @@
         }
       }
     },
+    "%@ owes you %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ 要畀你 %2$@"
+          }
+        }
+      }
+    },
     "%@ paid %@": {
       "localizations": {
         "zh-HK": {
@@ -121,12 +131,42 @@
         }
       }
     },
+    "%@ · turned into an Expense": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · 已轉做開支"
+          }
+        }
+      }
+    },
     "%@, %@, paid by %@": {
       "localizations": {
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
             "value": "%1$@，%2$@，%3$@ 畀錢"
+          }
+        }
+      }
+    },
+    "%lld Proposals": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 個提案"
+          }
+        }
+      }
+    },
+    "%lld going": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 人去"
           }
         }
       }
@@ -301,12 +341,12 @@
         }
       }
     },
-    "Balances": {
+    "Budget %@": {
       "localizations": {
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "結餘"
+            "value": "預算 %@"
           }
         }
       }
@@ -377,6 +417,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "選定提案"
+          }
+        }
+      }
+    },
+    "Chosen: %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選定：%@"
           }
         }
       }
@@ -941,6 +991,16 @@
         }
       }
     },
+    "Members": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "成員"
+          }
+        }
+      }
+    },
     "Monthly Personal Budget": {
       "localizations": {
         "zh-HK": {
@@ -1341,6 +1401,26 @@
         }
       }
     },
+    "Record as Paid": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "記低已畀"
+          }
+        }
+      }
+    },
+    "Record as Received": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "記低已收"
+          }
+        }
+      }
+    },
     "Records money already paid outside the app. SplitLa doesn’t handle real money.": {
       "localizations": {
         "zh-HK": {
@@ -1417,6 +1497,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "定個人預算"
+          }
+        }
+      }
+    },
+    "Set a monthly limit and every Proposal will show what you’d have left.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "定一個每月上限，每個提案都會顯示你仲剩幾多。"
           }
         }
       }
@@ -1794,6 +1884,16 @@
         }
       }
     },
+    "Used": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用咗"
+          }
+        }
+      }
+    },
     "We’ll email you a 6-digit code. No password needed.": {
       "localizations": {
         "zh-HK": {
@@ -1894,12 +1994,42 @@
         }
       }
     },
+    "You get back %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你攞返 %@"
+          }
+        }
+      }
+    },
     "You have left": {
       "localizations": {
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
             "value": "你仲剩"
+          }
+        }
+      }
+    },
+    "You owe %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你要畀 %@"
+          }
+        }
+      }
+    },
+    "You pay %@ %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你要畀 %1$@ %2$@"
           }
         }
       }
@@ -1920,6 +2050,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "你：超支 %@"
+          }
+        }
+      }
+    },
+    "Your Balance in This Group": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你喺呢個群組"
           }
         }
       }
@@ -1980,6 +2120,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "你嘅份額"
+          }
+        }
+      }
+    },
+    "You’re all square": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你已經找清"
           }
         }
       }
