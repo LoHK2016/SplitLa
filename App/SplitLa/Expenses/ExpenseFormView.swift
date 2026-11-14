@@ -28,10 +28,16 @@ struct ExpenseFormView: View {
     @State private var amountText = ""
     @State private var date = Date()
     @State private var paidBy: UUID?
-    @State private var isExact = false
+    @State private var splitMode = SplitMode.equal
     @State private var included: Set<UUID> = []
     @State private var exactTexts: [UUID: String] = [:]
     @State private var hasServiceCharge = false
+    /// Plate prices as typed, one per kind of plate, for splitting by plates.
+    @State private var plateTexts: [String] = PlatePrices.remembered.map(\.plain)
+    @State private var plates = PlateTally(prices: [])
+
+    /// How the Expense is divided. By plates is a way of filling in exact amounts: it is saved as one.
+    enum SplitMode: Hashable { case equal, exact, plates }
     @State private var isWorking = false
     @State private var failure: String?
 
@@ -72,7 +78,11 @@ struct ExpenseFormView: View {
         Form {
             Section {
                 TextField("What was it for?", text: $title)
-                LabeledContent("Amount") { AmountField(title: "$0", text: $amountText) }
+                if splitMode == .plates {
+                    LabeledContent("Amount", value: (tally?.total ?? .zero).description)
+                } else {
+                    LabeledContent("Amount") { AmountField(title: "$0", text: $amountText) }
+                }
                 DatePicker("Date", selection: $date, displayedComponents: .date)
                 Picker("Paid by", selection: $paidBy) {
                     ForEach(context.snapshot.members) { Text($0.name).tag(UUID?.some($0.id)) }
@@ -87,14 +97,23 @@ struct ExpenseFormView: View {
                 Text("Enter menu prices; each Share gets 10% added.")
             }
 
+            if splitMode == .plates {
+                PlatePricesSection(texts: $plateTexts)
+            }
+
             Section {
-                Picker("Split", selection: $isExact) {
-                    Text("Equally").tag(false)
-                    Text("Exact amounts").tag(true)
+                Picker("Split", selection: $splitMode) {
+                    Text("Equally").tag(SplitMode.equal)
+                    Text("Exact amounts").tag(SplitMode.exact)
+                    Text("By plates").tag(SplitMode.plates)
                 }
                 .pickerStyle(.segmented)
                 ForEach(context.snapshot.members) { member in
-                    if isExact {
+                    if splitMode == .plates {
+                        PlateCounter(
+                            name: member.name, member: member.id.memberID, prices: platePrices ?? [],
+                            plates: $plates)
+                    } else if splitMode == .exact {
                         LabeledContent(member.name) {
                             AmountField(title: "$0", text: Binding(
                                 get: { exactTexts[member.id] ?? "" }, set: { exactTexts[member.id] = $0 }))
@@ -108,7 +127,11 @@ struct ExpenseFormView: View {
             } header: {
                 Text("Who Shares It")
             } footer: {
-                if let problem { Text(problem).foregroundStyle(.red) }
+                if let problem {
+                    Text(problem).foregroundStyle(.red)
+                } else if splitMode == .plates {
+                    Text("Tap + for each plate someone took. Their amount is worked out from the plate prices.")
+                }
             }
 
             if let expense = checked?.expense {
@@ -124,9 +147,18 @@ struct ExpenseFormView: View {
 
     /// What is being entered, as the Ledger would hold it. Building it runs every Ledger rule.
     private var draft: Result<(input: GroupsService.ExpenseInput, expense: Expense), LedgerError>? {
-        guard !title.trimmed.isEmpty, let amount = Money(typed: amountText), let paidBy else { return nil }
+        guard !title.trimmed.isEmpty, let paidBy else { return nil }
+        let amount: Money
         let split: SplitRow
-        if isExact {
+        if splitMode == .plates {
+            guard let tally else { return nil }
+            amount = tally.total
+            split = .exact(Dictionary(uniqueKeysWithValues: tally.amounts.compactMap { member, money in
+                member.uuid.map { ($0, money) }
+            }))
+        } else if splitMode == .exact {
+            guard let typed = Money(typed: amountText) else { return nil }
+            amount = typed
             var amounts: [UUID: Money] = [:]
             for (member, text) in exactTexts where !text.trimmed.isEmpty {
                 guard let money = Money(typed: text) else { return nil }
@@ -134,6 +166,8 @@ struct ExpenseFormView: View {
             }
             split = .exact(amounts)
         } else {
+            guard let typed = Money(typed: amountText) else { return nil }
+            amount = typed
             split = .equal(Array(included))
         }
         let input = GroupsService.ExpenseInput(
@@ -160,7 +194,11 @@ struct ExpenseFormView: View {
         guard case .failure(let error) = draft else { return nil }
         switch error {
         case .noParticipants:
-            return isExact ? String(localized: "No amounts entered yet.") : String(localized: "Pick at least one person.")
+            switch splitMode {
+            case .equal: return String(localized: "Pick at least one person.")
+            case .exact: return String(localized: "No amounts entered yet.")
+            case .plates: return String(localized: "Count at least one plate.")
+            }
         case .exactAmountsMismatch(let difference):
             return difference > .zero
                 ? String(localized: "The exact amounts come to \(difference.description) less than the total.")
@@ -183,7 +221,7 @@ struct ExpenseFormView: View {
             date = expense.date.date()
             paidBy = expense.paidBy
             hasServiceCharge = expense.hasServiceCharge
-            isExact = expense.split.isExact
+            splitMode = expense.split.isExact ? .exact : .equal
             included = Set(expense.split.participants)
             for (key, cents) in expense.split.amounts ?? [:] {
                 if let member = UUID(uuidString: key) { exactTexts[member] = Money(cents: cents).plain }
@@ -199,8 +237,23 @@ struct ExpenseFormView: View {
         }
     }
 
+    /// The plate prices as typed, or nil while one of them is not a valid amount.
+    private var platePrices: [Money]? {
+        let prices = plateTexts.map(Money.init(typed:))
+        return prices.contains(nil) ? nil : prices.compactMap { $0 }
+    }
+
+    /// The plates counted so far, at the current prices.
+    private var tally: PlateTally? {
+        guard let platePrices else { return nil }
+        var current = plates
+        current.prices = platePrices
+        return current
+    }
+
     private func save() {
         guard let input = checked?.input else { return }
+        if splitMode == .plates, let platePrices { PlatePrices.remembered = platePrices }
         isWorking = true
         Task {
             do {

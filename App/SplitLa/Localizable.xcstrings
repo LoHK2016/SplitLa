@@ -261,6 +261,16 @@
         }
       }
     },
+    "Add a Plate Price": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加一種碟價"
+          }
+        }
+      }
+    },
     "Amount": {
       "localizations": {
         "zh-HK": {
@@ -347,6 +357,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "預算 %@"
+          }
+        }
+      }
+    },
+    "By plates": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "逐碟計"
           }
         }
       }
@@ -507,6 +527,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "寄唔到驗證碼，請檢查電郵地址同網絡再試。"
+          }
+        }
+      }
+    },
+    "Count at least one plate.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最少要數一隻碟。"
           }
         }
       }
@@ -1211,6 +1241,26 @@
         }
       }
     },
+    "One fewer %@ plate for %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%2$@ 少一隻 %1$@ 碟"
+          }
+        }
+      }
+    },
+    "One more %@ plate for %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%2$@ 多一隻 %1$@ 碟"
+          }
+        }
+      }
+    },
     "Only the Organiser can set the Activity Budget or choose a Proposal.": {
       "localizations": {
         "zh-HK": {
@@ -1357,6 +1407,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "佔位"
+          }
+        }
+      }
+    },
+    "Plate %lld": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "碟 %lld"
+          }
+        }
+      }
+    },
+    "Plate Prices": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "碟價"
           }
         }
       }
@@ -1511,6 +1581,16 @@
         }
       }
     },
+    "Set these to the prices on the restaurant’s menu. Swipe to remove one.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "照餐廳餐牌改做佢哋嘅碟價。向左掃可以刪走一種。"
+          }
+        }
+      }
+    },
     "Settle Up": {
       "localizations": {
         "zh-HK": {
@@ -1660,6 +1740,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "只儲喺呢部機。"
+          }
+        }
+      }
+    },
+    "Tap + for each plate someone took. Their amount is worked out from the plate prices.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每食一碟就撳一下「+」，每人要畀幾多會照碟價自動計。"
           }
         }
       }
@@ -1870,6 +1960,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "取消選定"
+          }
+        }
+      }
+    },
+    "Use Usual Prices": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用返常見碟價"
           }
         }
       }
