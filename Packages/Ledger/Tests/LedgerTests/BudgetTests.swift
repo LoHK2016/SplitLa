@@ -184,3 +184,30 @@ import Foundation
             for: "omakase", viewer: me, budget: nil, across: [friends], asOf: day(2026, 12, 1), calendar: hongKong) == nil)
     }
 }
+
+@Suite struct SpentAndMonthlyRemaining {
+    @Test func spentCountsTheActivitysExpensesWithServiceChargeAndSkipsDeletedOnes() {
+        var deleted = expense("refunded", dollars(999), paidBy: amy, among: [amy])
+        deleted.isDeleted = true
+        let state = GroupState(
+            members: members(amy, ben),
+            activities: [Activity(id: "dinner", name: "飯", organiser: amy), Activity(id: "other", name: "唱K", organiser: amy)],
+            expenses: [
+                expense("food", dollars(100), paidBy: amy, among: [amy, ben], serviceCharge: true),
+                expense("drinks", dollars(50), paidBy: ben, among: [amy, ben]),
+                expense("elsewhere", in: "other", dollars(70), paidBy: ben, among: [ben]),
+                deleted,
+            ])
+        #expect(state.spent(in: "dinner") == dollars(160))
+        #expect(state.spent(in: "nowhere") == .zero)
+    }
+
+    @Test func monthlyRemainingIsTheBudgetLessCommittedSpend() {
+        let committed = CommittedSpend(items: [
+            .init(source: .expense("a"), activityID: "x", title: "a", amount: dollars(300)),
+            .init(source: .chosenProposal("b"), activityID: "y", title: "b", amount: dollars(500)),
+        ])
+        #expect(committed.remaining(of: dollars(1000)) == dollars(200))
+        #expect(committed.remaining(of: dollars(600)) == dollars(-200))
+    }
+}

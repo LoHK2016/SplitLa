@@ -99,6 +99,7 @@ struct JoinGroupView: View {
                     }
                 }
                 .disabled(claim == nil && myName.trimmed.isEmpty)
+                .needsConnection()
             }
         }
         .disabled(isWorking)

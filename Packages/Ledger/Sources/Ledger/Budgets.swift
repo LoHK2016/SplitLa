@@ -41,6 +41,9 @@ public struct CommittedSpend: Equatable, Sendable {
 
     public let items: [Item]
     public var total: Money { items.map(\.amount).sum() }
+
+    /// What is left of a Personal Budget after this Committed Spend. Negative means overspent.
+    public func remaining(of budget: Money) -> Money { budget - total }
 }
 
 extension GroupState {
@@ -51,8 +54,12 @@ extension GroupState {
         guard let proposal = proposal(proposalID), let activity = activity(proposal.activityID),
               let budget = activity.budget, let proposalTotal = total(of: proposalID)
         else { return nil }
-        let spent = expenses.filter { $0.activityID == activity.id && !$0.isDeleted }.map(\.total).sum()
-        return ActivityCheck(budget: budget, spent: spent, proposalTotal: proposalTotal)
+        return ActivityCheck(budget: budget, spent: spent(in: activity.id), proposalTotal: proposalTotal)
+    }
+
+    /// What the Activity's recorded Expenses add up to, service charge included. Deleted ones do not count.
+    public func spent(in activityID: ActivityID) -> Money {
+        expenses.filter { $0.activityID == activityID && !$0.isDeleted }.map(\.total).sum()
     }
 
     /// A member's Committed Spend in this Group for a calendar month: their Shares of

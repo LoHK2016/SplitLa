@@ -30,7 +30,7 @@ struct PersonalBudgetView: View {
             Section {
                 LabeledContent("已承諾開支", value: committed.total.description)
                 if let budget = store.budget {
-                    let remaining = budget - committed.total
+                    let remaining = committed.remaining(of: budget)
                     LabeledContent(remaining < .zero ? "超支" : "仲剩") {
                         Text((remaining < .zero ? -remaining : remaining).description)
                             .foregroundStyle(remaining < .zero ? .red : .primary)

@@ -48,6 +48,7 @@ struct NewGroupView: View {
                     } else {
                         Button("建立", action: create)
                             .disabled(groupName.trimmed.isEmpty || myName.trimmed.isEmpty)
+                            .needsConnection()
                     }
                 }
             }

@@ -10,6 +10,8 @@
 #   2. Only the files listed below may touch the Personal Budget store, so a
 #      new use has to be added here on purpose.
 #   3. The database migrations have no table, column or function for it.
+#   4. None of the files allowed to touch the Personal Budget write logs, so the
+#      value cannot end up in one. (The app has no analytics at all.)
 set -eu
 cd "$(dirname "$0")/.."
 app=App/SplitLa
@@ -29,6 +31,13 @@ for file in $(grep -rl 'PersonalBudgetStore\|PersonalBudgetRecord' "$app" --incl
     *" $file "*) ;;
     *) echo "FAIL: $file uses the Personal Budget store but is not on the allowed list" >&2; failed=1 ;;
   esac
+done
+
+for file in $allowed; do
+  if grep -n -E '\b(print|debugPrint|dump|NSLog|os_log)\(|Logger\(' "$file"; then
+    echo "FAIL: $file can see the Personal Budget and writes logs" >&2
+    failed=1
+  fi
 done
 
 if grep -rn -i 'personal' supabase/migrations; then

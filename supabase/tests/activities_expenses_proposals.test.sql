@@ -5,7 +5,7 @@ begin;
 create extension if not exists pgtap with schema extensions;
 set local search_path = public, extensions;
 
-select plan(55);
+select plan(58);
 
 insert into auth.users (id, email) values
   ('00000000-0000-0000-0000-00000000000a', 'amy@rls-test.invalid'),
@@ -237,6 +237,18 @@ select results_eq($$ select status from proposals where title = '餐廳 A' $$, a
 set local request.jwt.claims to '{"sub":"00000000-0000-0000-0000-00000000000a"}';
 select throws_ok($$ select choose_proposal('bbbbbbbb-0000-0000-0000-000000000001') $$,
   '23514', null, 'a converted Proposal cannot be chosen again');
+update expenses set deleted_at = now() where proposal_id = 'bbbbbbbb-0000-0000-0000-000000000001';
+select results_eq($$ select status from proposals where title = '餐廳 A' $$, array['chosen'],
+  'deleting the Expense a Proposal became puts the Proposal back as the Chosen Proposal');
+update expenses set deleted_at = null where proposal_id = 'bbbbbbbb-0000-0000-0000-000000000001';
+select results_eq($$ select status from proposals where title = '餐廳 A' $$, array['converted'],
+  'restoring that Expense retires the Proposal again');
+update expenses set deleted_at = now() where proposal_id = 'bbbbbbbb-0000-0000-0000-000000000001';
+select choose_proposal('bbbbbbbb-0000-0000-0000-000000000002');
+update expenses set deleted_at = null where proposal_id = 'bbbbbbbb-0000-0000-0000-000000000001';
+select results_eq($$ select title, status from proposals where activity_id = 'aaaaaaaa-0000-0000-0000-000000000001' order by title $$,
+  $$ values ('餐廳 A', 'converted'), ('餐廳 B', 'chosen') $$,
+  'restoring it after another Proposal was chosen keeps the Organiser''s later choice');
 
 -- 07: claiming a Placeholder Member, and leaving ----------------------------------------------
 set local request.jwt.claims to '{"sub":"00000000-0000-0000-0000-00000000000c"}';

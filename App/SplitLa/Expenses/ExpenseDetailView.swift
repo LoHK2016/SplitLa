@@ -56,7 +56,9 @@ struct ExpenseDetailView: View {
             if !expense.isDeleted {
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button("改", systemImage: "pencil") { isEditing = true }
+                        .needsConnection()
                     Button("刪除", systemImage: "trash", role: .destructive) { isConfirmingDelete = true }
+                        .needsConnection()
                 }
             }
         }
@@ -73,6 +75,7 @@ struct ExpenseDetailView: View {
                     }
                 }
             }
+            .needsConnection()
         } message: {
             Text("佢唔會再計入結餘，但係仍然會留喺記錄度，全組都見到係邊個刪。")
         }

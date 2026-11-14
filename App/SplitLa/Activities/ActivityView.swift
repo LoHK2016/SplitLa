@@ -50,7 +50,7 @@ struct ActivityView: View {
     private func list(_ context: GroupContext, _ activity: ActivityRow) -> some View {
         let isOrganiser = context.me?.id == activity.organiserId
         let expenses = context.snapshot.expenses.filter { $0.activityId == activityID }
-        let spent = expenses.filter { !$0.isDeleted }.compactMap(\.ledger).map(\.total).sum()
+        let spent = context.state.spent(in: activityID.activityID)
         let proposals = context.snapshot.proposals.filter { $0.activityId == activityID }
         return List {
             Section {
@@ -169,16 +169,17 @@ private struct ProposalRowView: View {
         let state = context.state
         let me = context.me?.id.memberID
         let amIGoing = me.flatMap { state.activity(activity.id.activityID)?.attendance(of: $0) } == .going
+        let status = proposal.ledger.status
         VStack(alignment: .leading, spacing: 6) {
             HStack {
                 Text(proposal.title).font(.headline)
-                if proposal.status == "chosen" { Tag("選定", tint: .green) }
-                if proposal.status == "converted" { Tag("已轉做開支") }
+                if status == .chosen { Tag("選定", tint: .green) }
+                if status == .converted { Tag("已轉做開支") }
             }
             Text(amountLine(total: state.total(of: proposal.proposalID)))
                 .font(.subheadline).foregroundStyle(.secondary)
 
-            if proposal.status != "converted" {
+            if status != .converted {
                 if let me, let share = state.share(of: proposal.proposalID, for: me) {
                     Text("你嘅份額：\(share.description)\(amIGoing ? "" : "（假設你去）")")
                         .font(.subheadline)
@@ -200,20 +201,20 @@ private struct ProposalRowView: View {
                         .foregroundStyle(personal.isOver ? .red : .secondary)
                 }
                 HStack {
-                    if isOrganiser && proposal.status == "open" {
+                    if isOrganiser && status == .open {
                         Button("選定", action: choose).disabled(activity.date == nil)
                     }
-                    if isOrganiser && proposal.status == "chosen" {
+                    if isOrganiser && status == .chosen {
                         Button("取消選定", action: unchoose)
                     }
-                    if proposal.status == "chosen" {
+                    if status == .chosen {
                         Button("轉做開支", action: convert)
                     }
                 }
                 .buttonStyle(.bordered)
                 .controlSize(.small)
                 .needsConnection()
-                if isOrganiser && proposal.status == "open" && activity.date == nil {
+                if isOrganiser && status == .open && activity.date == nil {
                     Text("活動要有日期先可以選定提案。").font(.caption).foregroundStyle(.secondary)
                 }
             }
@@ -222,11 +223,12 @@ private struct ProposalRowView: View {
     }
 
     private func amountLine(total: Money?) -> String {
-        let amount = Money(cents: proposal.amountCents)
-        if proposal.amountKind == "per_person" {
-            return "每人 \(amount.description)" + (total.map { "，而家總共 \($0.description)" } ?? "")
+        switch proposal.ledger.amount {
+        case .perPerson(let each):
+            return "每人 \(each.description)" + (total.map { "，而家總共 \($0.description)" } ?? "")
+        case .total(let amount):
+            return "總數 \(amount.description)"
         }
-        return "總數 \(amount.description)"
     }
 }
 
