@@ -37,7 +37,7 @@ struct SignInView: View {
 
     private var emailSection: some View {
         Section {
-            TextField("電郵地址", text: $email)
+            TextField("Email", text: $email)
                 .textContentType(.emailAddress)
                 .keyboardType(.emailAddress)
                 .textInputAutocapitalization(.never)
@@ -46,19 +46,19 @@ struct SignInView: View {
                 .submitLabel(.continue)
                 .onSubmit(sendCode)
             Button(action: sendCode) {
-                progressLabel("寄驗證碼畀我")
+                progressLabel("Send Me a Code")
             }
             .disabled(!trimmedEmail.contains("@"))
         } header: {
-            Text("登入")
+            Text("Sign In")
         } footer: {
-            Text("我哋會寄一個 6 位數驗證碼去你嘅電郵，唔使密碼。")
+            Text("We’ll email you a 6-digit code. No password needed.")
         }
     }
 
     private func codeSection(sentTo: String) -> some View {
         Section {
-            TextField("6 位數驗證碼", text: $code)
+            TextField("6-digit code", text: $code)
                 .textContentType(.oneTimeCode)
                 .keyboardType(.numberPad)
                 .focused($focus, equals: .code)
@@ -67,23 +67,23 @@ struct SignInView: View {
                     if code.count == 6 { verify(sentTo) }
                 }
             Button { verify(sentTo) } label: {
-                progressLabel("登入")
+                progressLabel("Sign In")
             }
             .disabled(code.count != 6)
-            Button("用另一個電郵") {
+            Button("Use a Different Email") {
                 self.sentTo = nil
                 code = ""
                 errorMessage = nil
                 focus = .email
             }
         } header: {
-            Text("輸入驗證碼")
+            Text("Enter Code")
         } footer: {
-            Text("驗證碼已經寄去 \(sentTo)。")
+            Text("Code sent to \(sentTo).")
         }
     }
 
-    private func progressLabel(_ title: String) -> some View {
+    private func progressLabel(_ title: LocalizedStringKey) -> some View {
         HStack {
             Text(title)
             if isWorking {
@@ -96,7 +96,7 @@ struct SignInView: View {
     private func sendCode() {
         let address = trimmedEmail
         guard address.contains("@"), !isWorking else { return }
-        run(failure: "寄唔到驗證碼，請檢查電郵地址同網絡再試。") {
+        run(failure: String(localized: "Couldn’t send the code. Check the email address and your connection, then try again.")) {
             try await session.sendCode(to: address)
             sentTo = address
             focus = .code
@@ -105,7 +105,7 @@ struct SignInView: View {
 
     private func verify(_ address: String) {
         guard code.count == 6, !isWorking else { return }
-        run(failure: "驗證碼唔啱或者已經過期。") {
+        run(failure: String(localized: "That code is wrong or has expired.")) {
             do {
                 try await session.verify(code: code, for: address)
             } catch {

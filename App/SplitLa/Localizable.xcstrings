@@ -1,0 +1,2189 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "%@ added it": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 新增咗"
+          }
+        }
+      }
+    },
+    "%@ changed it": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 改咗"
+          }
+        }
+      }
+    },
+    "%@ deleted it": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 刪除咗"
+          }
+        }
+      }
+    },
+    "%@ in total": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "總數 %@"
+          }
+        }
+      }
+    },
+    "%@ owes you %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ 要畀你 %2$@"
+          }
+        }
+      }
+    },
+    "%@ paid %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ 畀咗 %2$@"
+          }
+        }
+      }
+    },
+    "%@ paid %@ %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ 畀咗 %2$@ %3$@"
+          }
+        }
+      }
+    },
+    "%@ paid %@ → %@ paid %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ 畀 %2$@ → %3$@ 畀 %4$@"
+          }
+        }
+      }
+    },
+    "%@ pays %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ 畀 %2$@"
+          }
+        }
+      }
+    },
+    "%@ per person": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每人 %@"
+          }
+        }
+      }
+    },
+    "%@ per person · %@ in total": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每人 %1$@ · 而家總共 %2$@"
+          }
+        }
+      }
+    },
+    "%@ restored it": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 還原咗"
+          }
+        }
+      }
+    },
+    "%@ · %lld going": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$lld 人去"
+          }
+        }
+      }
+    },
+    "%@ · turned into an Expense": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ · 已轉做開支"
+          }
+        }
+      }
+    },
+    "%@, %@, paid by %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@，%2$@，%3$@ 畀錢"
+          }
+        }
+      }
+    },
+    "%lld Proposals": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 個提案"
+          }
+        }
+      }
+    },
+    "%lld going": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 人去"
+          }
+        }
+      }
+    },
+    "%lld recorded": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 筆"
+          }
+        }
+      }
+    },
+    "10% service charge": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加一服務費"
+          }
+        }
+      }
+    },
+    "6-digit code": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "6 位數驗證碼"
+          }
+        }
+      }
+    },
+    "Account": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "帳戶"
+          }
+        }
+      }
+    },
+    "Activities": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "活動"
+          }
+        }
+      }
+    },
+    "Activity": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "活動"
+          }
+        }
+      }
+    },
+    "Activity Budget": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "活動預算"
+          }
+        }
+      }
+    },
+    "Add": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加入"
+          }
+        }
+      }
+    },
+    "Add Placeholder Member": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加佔位成員"
+          }
+        }
+      }
+    },
+    "Amount": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "金額"
+          }
+        }
+      }
+    },
+    "Amount in total": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "總共預計"
+          }
+        }
+      }
+    },
+    "Amount is": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "金額係"
+          }
+        }
+      }
+    },
+    "Amount per person": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每人預計"
+          }
+        }
+      }
+    },
+    "Amount: %@ → %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "金額：%1$@ → %2$@"
+          }
+        }
+      }
+    },
+    "Anyone with the link can join this Group.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "收到連結嘅人撳一下就可以加入呢個群組。"
+          }
+        }
+      }
+    },
+    "Attendance": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "出席狀態"
+          }
+        }
+      }
+    },
+    "Attendance · %lld going": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "出席 · %lld 人去"
+          }
+        }
+      }
+    },
+    "Budget %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "預算 %@"
+          }
+        }
+      }
+    },
+    "Cancel": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消"
+          }
+        }
+      }
+    },
+    "Can’t reach the server. Check your connection and try again.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "連唔到伺服器，請檢查網絡再試。"
+          }
+        }
+      }
+    },
+    "Change Personal Budget": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "改個人預算"
+          }
+        }
+      }
+    },
+    "Check your connection and try again.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請檢查網絡再試。"
+          }
+        }
+      }
+    },
+    "Choose": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選定"
+          }
+        }
+      }
+    },
+    "Chosen": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已選定"
+          }
+        }
+      }
+    },
+    "Chosen Proposal": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選定提案"
+          }
+        }
+      }
+    },
+    "Chosen: %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "選定：%@"
+          }
+        }
+      }
+    },
+    "Close SplitLa and open it again to see it in the new language.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "關咗 SplitLa 再開過，就會見到新語言。"
+          }
+        }
+      }
+    },
+    "Code sent to %@.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "驗證碼已經寄去 %@。"
+          }
+        }
+      }
+    },
+    "Committed Spend": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已承諾開支"
+          }
+        }
+      }
+    },
+    "Couldn’t Do That": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "做唔到"
+          }
+        }
+      }
+    },
+    "Couldn’t Load Groups": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "載入唔到群組"
+          }
+        }
+      }
+    },
+    "Couldn’t create the Group. Check your connection and try again.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開唔到群組，請檢查網絡再試。"
+          }
+        }
+      }
+    },
+    "Couldn’t join. Check your connection and try again.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加入唔到，請檢查網絡再試。"
+          }
+        }
+      }
+    },
+    "Couldn’t send the code. Check the email address and your connection, then try again.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "寄唔到驗證碼，請檢查電郵地址同網絡再試。"
+          }
+        }
+      }
+    },
+    "Create": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "建立"
+          }
+        }
+      }
+    },
+    "Date": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日期"
+          }
+        }
+      }
+    },
+    "Date: %@ → %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "日期：%1$@ → %2$@"
+          }
+        }
+      }
+    },
+    "Delete": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刪除"
+          }
+        }
+      }
+    },
+    "Delete Expense": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刪除開支"
+          }
+        }
+      }
+    },
+    "Delete Settlement": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刪除呢筆找數"
+          }
+        }
+      }
+    },
+    "Delete this Expense?": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刪除呢筆開支？"
+          }
+        }
+      }
+    },
+    "Deleted": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已刪除"
+          }
+        }
+      }
+    },
+    "Edit": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "改"
+          }
+        }
+      }
+    },
+    "Edit Expense": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "改開支"
+          }
+        }
+      }
+    },
+    "Email": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "電郵地址"
+          }
+        }
+      }
+    },
+    "Enter Code": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "輸入驗證碼"
+          }
+        }
+      }
+    },
+    "Enter a valid amount.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請入一個有效嘅金額。"
+          }
+        }
+      }
+    },
+    "Enter menu prices; each Share gets 10% added.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "照餐牌價入數，開咗之後每人份額會加 10%。"
+          }
+        }
+      }
+    },
+    "Equally": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "平均分"
+          }
+        }
+      }
+    },
+    "Equally (%@)": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "平均分（%@）"
+          }
+        }
+      }
+    },
+    "Everyone going pays this.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每個去嘅人畀呢個數。"
+          }
+        }
+      }
+    },
+    "Exact amounts": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "逐人金額"
+          }
+        }
+      }
+    },
+    "Exact amounts (%@)": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "逐人金額（%@）"
+          }
+        }
+      }
+    },
+    "Expense": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開支"
+          }
+        }
+      }
+    },
+    "Expenses": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開支"
+          }
+        }
+      }
+    },
+    "Filled in from the Chosen Proposal. Just correct the real amount and who paid.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "資料由選定提案預先填好。改返實際金額同邊個畀錢就得。"
+          }
+        }
+      }
+    },
+    "For friends who don’t use the app. They can claim it when they join with the invite link.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "畀未裝 App 嘅朋友用。佢之後經邀請連結加入嗰陣可以認領返。"
+          }
+        }
+      }
+    },
+    "From": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "來源"
+          }
+        }
+      }
+    },
+    "Gets back %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "攞返 %@"
+          }
+        }
+      }
+    },
+    "Going": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "去"
+          }
+        }
+      }
+    },
+    "Group": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "群組"
+          }
+        }
+      }
+    },
+    "Group Name": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "群組名"
+          }
+        }
+      }
+    },
+    "Group name": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "群組名"
+          }
+        }
+      }
+    },
+    "Groups": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "群組"
+          }
+        }
+      }
+    },
+    "Has a Friend Already Added You?": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "朋友有冇已經幫你入咗數？"
+          }
+        }
+      }
+    },
+    "History": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "改動記錄"
+          }
+        }
+      }
+    },
+    "How much the whole Activity is expected to cost. Everyone in the Group can see it.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "成個活動預計總共洗幾多，全組都睇到。"
+          }
+        }
+      }
+    },
+    "I started “%@” on SplitLa. Tap the link to join and split costs together.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我喺 SplitLa 開咗「%@」，撳條連結加入一齊夾數。"
+          }
+        }
+      }
+    },
+    "If one of these is you, pick it and everything recorded for you comes with you.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "如果其中一個係你，揀返自己，之前嘅數就會跟返你。"
+          }
+        }
+      }
+    },
+    "If you go": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "假設你去"
+          }
+        }
+      }
+    },
+    "Invite Friends": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "邀請朋友"
+          }
+        }
+      }
+    },
+    "It may have expired, or you may be offline. Ask your friend to send it again.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "條連結可能已經失效，或者而家冇網絡。叫朋友再傳一次畀你。"
+          }
+        }
+      }
+    },
+    "It will stop counting towards Balances, but stays in the history so the whole Group can see who deleted it.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "佢唔會再計入結餘，但係仍然會留喺記錄度，全組都見到係邊個刪。"
+          }
+        }
+      }
+    },
+    "I’m new": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新成員"
+          }
+        }
+      }
+    },
+    "Join Group": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加入群組"
+          }
+        }
+      }
+    },
+    "Join “%@”": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加入「%@」"
+          }
+        }
+      }
+    },
+    "Language": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "語言"
+          }
+        }
+      }
+    },
+    "Language Changed": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已經轉咗語言"
+          }
+        }
+      }
+    },
+    "Leave Group": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "退出群組"
+          }
+        }
+      }
+    },
+    "Leave this Group?": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "退出呢個群組？"
+          }
+        }
+      }
+    },
+    "Left": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "仲剩"
+          }
+        }
+      }
+    },
+    "Make these payments and everyone is square. SplitLa doesn’t move money: once you’ve paid by FPS or PayMe, tap to record it.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "照住過數就找清晒。SplitLa 唔會幫你過數；用 FPS 或 PayMe 畀咗錢之後，撳一下記低。"
+          }
+        }
+      }
+    },
+    "Members": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "成員"
+          }
+        }
+      }
+    },
+    "Monthly Personal Budget": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每月個人預算"
+          }
+        }
+      }
+    },
+    "Monthly limit": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每月上限"
+          }
+        }
+      }
+    },
+    "More": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "更多"
+          }
+        }
+      }
+    },
+    "My Personal Budget": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我嘅個人預算"
+          }
+        }
+      }
+    },
+    "Name": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "名稱"
+          }
+        }
+      }
+    },
+    "Name: %@ → %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "名稱：%1$@ → %2$@"
+          }
+        }
+      }
+    },
+    "New Activity": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開新活動"
+          }
+        }
+      }
+    },
+    "New Expense": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "記一筆開支"
+          }
+        }
+      }
+    },
+    "New Group": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開新群組"
+          }
+        }
+      }
+    },
+    "New Proposal": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開新提案"
+          }
+        }
+      }
+    },
+    "No": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "冇"
+          }
+        }
+      }
+    },
+    "No Expenses or Chosen Proposals this month yet.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今個月未有任何開支或者選定提案。"
+          }
+        }
+      }
+    },
+    "No Groups Yet": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未有群組"
+          }
+        }
+      }
+    },
+    "No amounts entered yet.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未入任何人嘅金額。"
+          }
+        }
+      }
+    },
+    "No date yet": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未定日期"
+          }
+        }
+      }
+    },
+    "No reply": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未覆"
+          }
+        }
+      }
+    },
+    "Not going": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "唔去"
+          }
+        }
+      }
+    },
+    "Not set": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未定"
+          }
+        }
+      }
+    },
+    "OK": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "好"
+          }
+        }
+      }
+    },
+    "Offline: showing your last synced data. Changes are paused.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "離線緊：只可以睇上次同步嘅資料，暫時改唔到嘢。"
+          }
+        }
+      }
+    },
+    "Once you join, you’ll see this Group’s Members and accounts.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加入之後，你會見到呢個群組嘅成員同帳目。"
+          }
+        }
+      }
+    },
+    "Only the Organiser can set the Activity Budget or choose a Proposal.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "只有主辦人可以定活動預算同選定提案。"
+          }
+        }
+      }
+    },
+    "Only you can see the “You” amounts.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "「你」嗰啲數只有你自己見到。"
+          }
+        }
+      }
+    },
+    "Organiser: %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "主辦人：%@"
+          }
+        }
+      }
+    },
+    "Other Members will see this name.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "其他成員會見到呢個名。"
+          }
+        }
+      }
+    },
+    "Over budget by %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "超出活動預算 %@"
+          }
+        }
+      }
+    },
+    "Over by": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "超支"
+          }
+        }
+      }
+    },
+    "Owes %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "要畀 %@"
+          }
+        }
+      }
+    },
+    "Paid by": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "邊個畀錢"
+          }
+        }
+      }
+    },
+    "Paid by %@ · %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ 畀錢 · %2$@"
+          }
+        }
+      }
+    },
+    "Paid by: %@ → %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "畀錢：%1$@ → %2$@"
+          }
+        }
+      }
+    },
+    "Paid to": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "畀邊個"
+          }
+        }
+      }
+    },
+    "Per person": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每人"
+          }
+        }
+      }
+    },
+    "Personal Budget": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "個人預算"
+          }
+        }
+      }
+    },
+    "Pick at least one person.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最少要揀一個有份嘅人。"
+          }
+        }
+      }
+    },
+    "Placeholder": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "佔位"
+          }
+        }
+      }
+    },
+    "Proposal": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提案"
+          }
+        }
+      }
+    },
+    "Proposals": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提案"
+          }
+        }
+      }
+    },
+    "Record a Settlement": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "記一筆找數"
+          }
+        }
+      }
+    },
+    "Record an Expense": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "記一筆開支"
+          }
+        }
+      }
+    },
+    "Record as Paid": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "記低已畀"
+          }
+        }
+      }
+    },
+    "Record as Received": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "記低已收"
+          }
+        }
+      }
+    },
+    "Records money already paid outside the app. SplitLa doesn’t handle real money.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "記低已經喺 App 以外畀咗嘅錢。SplitLa 唔處理真錢。"
+          }
+        }
+      }
+    },
+    "Remove Budget": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移除預算"
+          }
+        }
+      }
+    },
+    "Remove Personal Budget": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移除個人預算"
+          }
+        }
+      }
+    },
+    "Rename Group": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "改群組名"
+          }
+        }
+      }
+    },
+    "Save": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "儲存"
+          }
+        }
+      }
+    },
+    "Send Me a Code": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "寄驗證碼畀我"
+          }
+        }
+      }
+    },
+    "Service charge: %@ → %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加一：%1$@ → %2$@"
+          }
+        }
+      }
+    },
+    "Set Personal Budget": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "定個人預算"
+          }
+        }
+      }
+    },
+    "Set a monthly limit and every Proposal will show what you’d have left.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "定一個每月上限，每個提案都會顯示你仲剩幾多。"
+          }
+        }
+      }
+    },
+    "Settle Up": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "建議轉帳"
+          }
+        }
+      }
+    },
+    "Settled": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "找清"
+          }
+        }
+      }
+    },
+    "Settlement": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "找數"
+          }
+        }
+      }
+    },
+    "Settlements": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "找數記錄"
+          }
+        }
+      }
+    },
+    "Settlements are only records. SplitLa doesn’t move money or connect to FPS or PayMe.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "找數只係記錄。SplitLa 唔會幫你過數，亦唔會連去 FPS 或 PayMe。"
+          }
+        }
+      }
+    },
+    "Shares": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每人份額"
+          }
+        }
+      }
+    },
+    "Sign In": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "登入"
+          }
+        }
+      }
+    },
+    "Sign Out": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "登出"
+          }
+        }
+      }
+    },
+    "Someone": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "有人"
+          }
+        }
+      }
+    },
+    "Spent": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已用"
+          }
+        }
+      }
+    },
+    "Split": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分法"
+          }
+        }
+      }
+    },
+    "Split evenly among everyone going.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "由覆咗「去」嘅人平均分。"
+          }
+        }
+      }
+    },
+    "Split: %@ → %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分法：%1$@ → %2$@"
+          }
+        }
+      }
+    },
+    "SplitLa": {
+      "shouldTranslate": false
+    },
+    "Start a Group, or ask a friend to send you an invite link.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開一個群組，或者叫朋友傳條邀請連結畀你。"
+          }
+        }
+      }
+    },
+    "Stays on this iPhone only.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "只儲喺呢部機。"
+          }
+        }
+      }
+    },
+    "Tap to change": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "撳一下改"
+          }
+        }
+      }
+    },
+    "That amount isn’t right.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "金額唔啱。"
+          }
+        }
+      }
+    },
+    "That code is wrong or has expired.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "驗證碼唔啱或者已經過期。"
+          }
+        }
+      }
+    },
+    "The Activity needs a date before a Proposal can be chosen.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "活動要有日期先可以選定提案。"
+          }
+        }
+      }
+    },
+    "The date is set": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已經定咗日期"
+          }
+        }
+      }
+    },
+    "The exact amounts come to %@ less than the total.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "逐人金額加埋比總數少咗 %@。"
+          }
+        }
+      }
+    },
+    "The exact amounts come to %@ more than the total.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "逐人金額加埋比總數多咗 %@。"
+          }
+        }
+      }
+    },
+    "The payer and the person paid can’t be the same.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "畀錢同收錢唔可以係同一個人。"
+          }
+        }
+      }
+    },
+    "The server didn’t accept this change. Refresh and try again.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "伺服器唔接受呢個改動，請更新畫面再試。"
+          }
+        }
+      }
+    },
+    "Their name": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "佢個名"
+          }
+        }
+      }
+    },
+    "This Expense was deleted and no longer counts towards Balances.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "呢筆開支已經刪除，唔再計入結餘。"
+          }
+        }
+      }
+    },
+    "This Invite Link Doesn’t Work": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開唔到呢條邀請連結"
+          }
+        }
+      }
+    },
+    "This Settlement was deleted and no longer counts towards Balances.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "呢筆找數已經刪除，唔再計入結餘。"
+          }
+        }
+      }
+    },
+    "Total": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "總數"
+          }
+        }
+      }
+    },
+    "Total for the whole Activity": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "成個活動總共幾多錢"
+          }
+        }
+      }
+    },
+    "Total paid": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "實際總數"
+          }
+        }
+      }
+    },
+    "Try Again": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再試"
+          }
+        }
+      }
+    },
+    "Turn into Expense": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "轉做開支"
+          }
+        }
+      }
+    },
+    "Turn “%@” into an Expense": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "將「%@」轉做開支"
+          }
+        }
+      }
+    },
+    "Turned into an Expense": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已轉做開支"
+          }
+        }
+      }
+    },
+    "Unchoose": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消選定"
+          }
+        }
+      }
+    },
+    "Use a Different Email": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用另一個電郵"
+          }
+        }
+      }
+    },
+    "Used": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用咗"
+          }
+        }
+      }
+    },
+    "We’ll email you a 6-digit code. No password needed.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我哋會寄一個 6 位數驗證碼去你嘅電郵，唔使密碼。"
+          }
+        }
+      }
+    },
+    "What Makes It Up": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "由邊幾筆組成"
+          }
+        }
+      }
+    },
+    "What Should This Group Call You?": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你喺呢個群組叫咩名"
+          }
+        }
+      }
+    },
+    "What was it for?": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "買咗乜"
+          }
+        }
+      }
+    },
+    "Which one are you?": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你係邊個"
+          }
+        }
+      }
+    },
+    "Who Shares It": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "邊啲人有份"
+          }
+        }
+      }
+    },
+    "Within budget · %@ left": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "預算內 · 仲剩 %@"
+          }
+        }
+      }
+    },
+    "Yes": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "有"
+          }
+        }
+      }
+    },
+    "You": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你"
+          }
+        }
+      }
+    },
+    "You can add the date later, but a Proposal can only be chosen once there is one.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未定日期都開得，不過要有日期先可以選定提案。"
+          }
+        }
+      }
+    },
+    "You get back %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你攞返 %@"
+          }
+        }
+      }
+    },
+    "You have left": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你仲剩"
+          }
+        }
+      }
+    },
+    "You owe %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你要畀 %@"
+          }
+        }
+      }
+    },
+    "You pay %@ %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你要畀 %1$@ %2$@"
+          }
+        }
+      }
+    },
+    "You: %@ left": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你：仲剩 %@"
+          }
+        }
+      }
+    },
+    "You: over by %@": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你：超支 %@"
+          }
+        }
+      }
+    },
+    "Your Balance in This Group": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你喺呢個群組"
+          }
+        }
+      }
+    },
+    "Your Personal Budget stays on this iPhone. Other Members and SplitLa can’t see it.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "個人預算只儲喺呢部機，其他成員同 SplitLa 都睇唔到。"
+          }
+        }
+      }
+    },
+    "Your Shares of Expenses so far, plus your Shares of Chosen Proposals for Activities you’re going to.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已經發生嘅開支入面你嘅份額，加埋你覆咗「去」嘅活動入面選定提案嘅份額。"
+          }
+        }
+      }
+    },
+    "Your accounts stay, and other Members still see your Balance. You can come back with the invite link and claim it again.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你條數會留低，其他成員仍然見到你嘅結餘。你之後可以經邀請連結返嚟認領返。"
+          }
+        }
+      }
+    },
+    "Your monthly limit for social spending, across all your Groups. It stays on this iPhone: other Members and SplitLa’s servers can’t see it, and nobody can tell whether you go over.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你每個月社交開支嘅上限，跨晒所有群組。只儲喺呢部機：其他成員同 SplitLa 嘅伺服器都睇唔到，亦唔會知你有冇超支。"
+          }
+        }
+      }
+    },
+    "Your name": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你嘅名"
+          }
+        }
+      }
+    },
+    "Your share": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你嘅份額"
+          }
+        }
+      }
+    },
+    "You’re all square": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你已經找清"
+          }
+        }
+      }
+    },
+    "You’re over by": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你超支咗"
+          }
+        }
+      }
+    },
+    "e.g. Restaurant A": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "例如：餐廳 A"
+          }
+        }
+      }
+    },
+    "e.g. Saturday hotpot": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "例如：星期六火鍋"
+          }
+        }
+      }
+    },
+    "e.g. Uni dinner crew": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "例如：大學飯腳"
+          }
+        }
+      }
+    },
+    "this month": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今個月"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}
