@@ -84,17 +84,17 @@ struct PlatePricesSection: View {
 
     var body: some View {
         Section {
-            ForEach($types) { $type in
+            ForEach(types) { type in
                 let position = types.firstIndex(of: type) ?? 0
                 HStack(spacing: 12) {
                     PlateDot(color: type.color)
                     if type.kind == .custom {
-                        TextField(String(localized: "Plate \(position + 1)"), text: $type.name)
+                        TextField(String(localized: "Plate \(position + 1)"), text: field(\.name, of: type.id))
                     } else {
                         Text(type.displayName(position: position))
                     }
                     Spacer(minLength: 8)
-                    AmountField(title: "$0", text: $type.price)
+                    AmountField(title: "$0", text: field(\.price, of: type.id))
                         .frame(maxWidth: 90)
                 }
             }
@@ -117,6 +117,19 @@ struct PlatePricesSection: View {
         } footer: {
             Text("Starts with Sushiro’s plates. Change a price, add your own plate with a name, or swipe left to remove one.")
         }
+    }
+}
+
+extension PlatePricesSection {
+    /// A text field's link to one plate, found by its id each time rather than by position.
+    /// A field still being edited when its plate is removed (by a reset or a swipe) writes its
+    /// last value on the way out; with a position that would point past the end of the list.
+    fileprivate func field(_ keyPath: WritableKeyPath<PlateType, String>, of id: UUID) -> Binding<String> {
+        Binding(
+            get: { types.first { $0.id == id }?[keyPath: keyPath] ?? "" },
+            set: { value in
+                if let index = types.firstIndex(where: { $0.id == id }) { types[index][keyPath: keyPath] = value }
+            })
     }
 }
 
