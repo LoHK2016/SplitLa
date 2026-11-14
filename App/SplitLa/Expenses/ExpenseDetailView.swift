@@ -38,14 +38,23 @@ struct ExpenseDetailView: View {
                 LabeledContent("Date", value: expense.date.display)
                 LabeledContent("Paid by", value: context.name(of: expense.paidBy))
                 LabeledContent("Amount", value: Money(cents: expense.amountCents).description)
-                LabeledContent("Split", value: expense.split.isExact ? String(localized: "Exact amounts") : String(localized: "Equally"))
+                LabeledContent("Split", value: expense.plates != nil
+                    ? String(localized: "By plates")
+                    : expense.split.isExact ? String(localized: "Exact amounts") : String(localized: "Equally"))
                 LabeledContent("10% service charge", value: expense.hasServiceCharge ? String(localized: "Yes") : String(localized: "No"))
                 if expense.proposalId != nil { LabeledContent("From", value: String(localized: "Chosen Proposal")) }
             }
             if let ledger = expense.ledger {
                 Section("Shares") {
                     ForEach(context.snapshot.members.filter { ledger.shares[$0.id.memberID] != nil }) { member in
-                        LabeledContent(member.name, value: ledger.shares[member.id.memberID]!.description)
+                        LabeledContent {
+                            Text(ledger.shares[member.id.memberID]!.description).monospacedDigit()
+                        } label: {
+                            Text(member.name)
+                            if let plates = expense.plates?.plates(of: member.id), !plates.isEmpty {
+                                PlateSummary(plates: plates)
+                            }
+                        }
                     }
                     LabeledContent("Total paid", value: ledger.total.description).fontWeight(.semibold)
                 }

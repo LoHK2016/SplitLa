@@ -90,6 +90,8 @@ extension GroupsService {
         var paidBy: UUID
         var split: SplitRow
         var hasServiceCharge: Bool
+        /// Set when split by plates; saving without it clears any plates the Expense had.
+        var plates: PlatesRow?
 
         fileprivate var fields: [String: AnyJSON] {
             var split: [String: AnyJSON] = ["kind": .string(self.split.kind)]
@@ -103,6 +105,17 @@ extension GroupsService {
                 "title": .string(title), "date": .string(date.text), "amount_cents": .integer(amount.cents),
                 "paid_by": .string(paidBy.uuidString), "split": .object(split),
                 "has_service_charge": .bool(hasServiceCharge),
+                "plates": plates.map { plates in
+                    .object([
+                        "types": .array(plates.types.map { type in
+                            .object([
+                                "kind": .string(type.kind), "name": .string(type.name),
+                                "price_cents": .integer(type.priceCents), "color_index": .integer(type.colorIndex),
+                            ])
+                        }),
+                        "counts": .object(plates.counts.mapValues { .array($0.map { .integer($0) }) }),
+                    ])
+                } ?? .null,
             ]
         }
     }

@@ -171,6 +171,16 @@
         }
       }
     },
+    "%lld plates": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 碟"
+          }
+        }
+      }
+    },
     "%lld recorded": {
       "localizations": {
         "zh-HK": {
@@ -261,6 +271,16 @@
         }
       }
     },
+    "Add a Plate": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "加一種碟"
+          }
+        }
+      }
+    },
     "Amount": {
       "localizations": {
         "zh-HK": {
@@ -341,12 +361,32 @@
         }
       }
     },
+    "Black plate": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "黑碟"
+          }
+        }
+      }
+    },
     "Budget %@": {
       "localizations": {
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
             "value": "預算 %@"
+          }
+        }
+      }
+    },
+    "By plates": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "逐碟計"
           }
         }
       }
@@ -507,6 +547,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "寄唔到驗證碼，請檢查電郵地址同網絡再試。"
+          }
+        }
+      }
+    },
+    "Count at least one plate.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最少要數一隻碟。"
           }
         }
       }
@@ -767,6 +817,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "去"
+          }
+        }
+      }
+    },
+    "Gold plate": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "金碟"
           }
         }
       }
@@ -1361,6 +1421,26 @@
         }
       }
     },
+    "Plate %lld": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "碟 %lld"
+          }
+        }
+      }
+    },
+    "Plates": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "碟"
+          }
+        }
+      }
+    },
     "Proposal": {
       "localizations": {
         "zh-HK": {
@@ -1427,6 +1507,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "記低已經喺 App 以外畀咗嘅錢。SplitLa 唔處理真錢。"
+          }
+        }
+      }
+    },
+    "Red plate": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "紅碟"
           }
         }
       }
@@ -1591,6 +1681,16 @@
         }
       }
     },
+    "Silver plate": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "銀碟"
+          }
+        }
+      }
+    },
     "Someone": {
       "localizations": {
         "zh-HK": {
@@ -1654,12 +1754,32 @@
         }
       }
     },
+    "Starts with Sushiro’s plates. Change a price, add your own plate with a name, or swipe left to remove one.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "預設係壽司郎嘅碟價。可以改價錢、自己加一種碟再改名，或者向左掃刪走一種。"
+          }
+        }
+      }
+    },
     "Stays on this iPhone only.": {
       "localizations": {
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
             "value": "只儲喺呢部機。"
+          }
+        }
+      }
+    },
+    "Tap + for each plate someone took. Their amount is worked out from the plate prices.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每食一碟就撳一下「+」，每人要畀幾多會照碟價自動計。"
           }
         }
       }
@@ -1870,6 +1990,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "取消選定"
+          }
+        }
+      }
+    },
+    "Use Sushiro Plates": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用返壽司郎碟價"
           }
         }
       }
