@@ -29,6 +29,15 @@ public struct PlateTally: Equatable, Sendable {
         counts[member] = row
     }
 
+    /// Drops a kind of plate, along with everyone's plates of that kind.
+    public mutating func removePrice(at index: Int) {
+        guard prices.indices.contains(index) else { return }
+        prices.remove(at: index)
+        for member in counts.keys where counts[member]!.indices.contains(index) {
+            counts[member]!.remove(at: index)
+        }
+    }
+
     /// What each member's plates come to, before any service charge. Members with no plates
     /// are left out, so they carry no Share.
     public var amounts: [MemberID: Money] {

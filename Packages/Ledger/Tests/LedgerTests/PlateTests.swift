@@ -34,6 +34,16 @@ import Testing
         #expect(tally.amounts == [amy: dollars(39)])
     }
 
+    @Test func removingAPriceKeepsEveryoneElsesPlatesInPlace() {
+        var tally = PlateTally(prices: prices, counts: [amy: [1, 2, 3], ben: [4]])
+        tally.removePrice(at: 1)
+        #expect(tally.prices == [dollars(12), dollars(22)])
+        #expect(tally.count(of: amy, priceAt: 0) == 1)
+        #expect(tally.count(of: amy, priceAt: 1) == 3)
+        #expect(tally.count(of: ben, priceAt: 0) == 4)
+        #expect(tally.amounts == [amy: dollars(78), ben: dollars(48)])
+    }
+
     @Test func theExpenseFromATallySumsToTheChargedTotal() throws {
         let tally = PlateTally(prices: prices, counts: [amy: [3, 1, 0], ben: [0, 2, 1], cat: [1, 0, 0]])
         let expense = try Expense(

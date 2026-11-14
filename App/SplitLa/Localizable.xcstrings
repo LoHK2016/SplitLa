@@ -171,6 +171,16 @@
         }
       }
     },
+    "%lld plates": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 碟"
+          }
+        }
+      }
+    },
     "%lld recorded": {
       "localizations": {
         "zh-HK": {
@@ -261,12 +271,12 @@
         }
       }
     },
-    "Add a Plate Price": {
+    "Add a Plate": {
       "localizations": {
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "加一種碟價"
+            "value": "加一種碟"
           }
         }
       }
@@ -347,6 +357,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "出席 · %lld 人去"
+          }
+        }
+      }
+    },
+    "Black plate": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "黑碟"
           }
         }
       }
@@ -801,6 +821,16 @@
         }
       }
     },
+    "Gold plate": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "金碟"
+          }
+        }
+      }
+    },
     "Group": {
       "localizations": {
         "zh-HK": {
@@ -1241,26 +1271,6 @@
         }
       }
     },
-    "One fewer %@ plate for %@": {
-      "localizations": {
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%2$@ 少一隻 %1$@ 碟"
-          }
-        }
-      }
-    },
-    "One more %@ plate for %@": {
-      "localizations": {
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%2$@ 多一隻 %1$@ 碟"
-          }
-        }
-      }
-    },
     "Only the Organiser can set the Activity Budget or choose a Proposal.": {
       "localizations": {
         "zh-HK": {
@@ -1421,12 +1431,12 @@
         }
       }
     },
-    "Plate Prices": {
+    "Plates": {
       "localizations": {
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "碟價"
+            "value": "碟"
           }
         }
       }
@@ -1497,6 +1507,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "記低已經喺 App 以外畀咗嘅錢。SplitLa 唔處理真錢。"
+          }
+        }
+      }
+    },
+    "Red plate": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "紅碟"
           }
         }
       }
@@ -1581,16 +1601,6 @@
         }
       }
     },
-    "Set these to the prices on the restaurant’s menu. Swipe to remove one.": {
-      "localizations": {
-        "zh-HK": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "照餐廳餐牌改做佢哋嘅碟價。向左掃可以刪走一種。"
-          }
-        }
-      }
-    },
     "Settle Up": {
       "localizations": {
         "zh-HK": {
@@ -1671,6 +1681,16 @@
         }
       }
     },
+    "Silver plate": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "銀碟"
+          }
+        }
+      }
+    },
     "Someone": {
       "localizations": {
         "zh-HK": {
@@ -1730,6 +1750,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "開一個群組，或者叫朋友傳條邀請連結畀你。"
+          }
+        }
+      }
+    },
+    "Starts with Sushiro’s plates. Change a price, add your own plate with a name, or swipe left to remove one.": {
+      "localizations": {
+        "zh-HK": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "預設係壽司郎嘅碟價。可以改價錢、自己加一種碟再改名，或者向左掃刪走一種。"
           }
         }
       }
@@ -1964,12 +1994,12 @@
         }
       }
     },
-    "Use Usual Prices": {
+    "Use Sushiro Plates": {
       "localizations": {
         "zh-HK": {
           "stringUnit": {
             "state": "translated",
-            "value": "用返常見碟價"
+            "value": "用返壽司郎碟價"
           }
         }
       }

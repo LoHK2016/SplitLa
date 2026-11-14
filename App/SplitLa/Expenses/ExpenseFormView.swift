@@ -32,8 +32,8 @@ struct ExpenseFormView: View {
     @State private var included: Set<UUID> = []
     @State private var exactTexts: [UUID: String] = [:]
     @State private var hasServiceCharge = false
-    /// Plate prices as typed, one per kind of plate, for splitting by plates.
-    @State private var plateTexts: [String] = PlatePrices.remembered.map(\.plain)
+    /// The kinds of plate and their prices, for splitting by plates.
+    @State private var plateTypes: [PlateType] = RememberedPlates.value
     @State private var plates = PlateTally(prices: [])
 
     /// How the Expense is divided. By plates is a way of filling in exact amounts: it is saved as one.
@@ -98,7 +98,7 @@ struct ExpenseFormView: View {
             }
 
             if splitMode == .plates {
-                PlatePricesSection(texts: $plateTexts)
+                PlatePricesSection(types: $plateTypes) { plates.removePrice(at: $0) }
             }
 
             Section {
@@ -108,20 +108,19 @@ struct ExpenseFormView: View {
                     Text("By plates").tag(SplitMode.plates)
                 }
                 .pickerStyle(.segmented)
-                ForEach(context.snapshot.members) { member in
-                    if splitMode == .plates {
-                        PlateCounter(
-                            name: member.name, member: member.id.memberID, prices: platePrices ?? [],
-                            plates: $plates)
-                    } else if splitMode == .exact {
-                        LabeledContent(member.name) {
-                            AmountField(title: "$0", text: Binding(
-                                get: { exactTexts[member.id] ?? "" }, set: { exactTexts[member.id] = $0 }))
+                // By plates has its own section for each person below.
+                if splitMode != .plates {
+                    ForEach(context.snapshot.members) { member in
+                        if splitMode == .exact {
+                            LabeledContent(member.name) {
+                                AmountField(title: "$0", text: Binding(
+                                    get: { exactTexts[member.id] ?? "" }, set: { exactTexts[member.id] = $0 }))
+                            }
+                        } else {
+                            Toggle(member.name, isOn: Binding(
+                                get: { included.contains(member.id) },
+                                set: { if $0 { included.insert(member.id) } else { included.remove(member.id) } }))
                         }
-                    } else {
-                        Toggle(member.name, isOn: Binding(
-                            get: { included.contains(member.id) },
-                            set: { if $0 { included.insert(member.id) } else { included.remove(member.id) } }))
                     }
                 }
             } header: {
@@ -131,6 +130,14 @@ struct ExpenseFormView: View {
                     Text(problem).foregroundStyle(.red)
                 } else if splitMode == .plates {
                     Text("Tap + for each plate someone took. Their amount is worked out from the plate prices.")
+                }
+            }
+
+            if splitMode == .plates {
+                ForEach(context.snapshot.members) { member in
+                    PlateCounterSection(
+                        name: member.name, member: member.id.memberID, types: plateTypes,
+                        prices: countingPrices, plates: $plates)
                 }
             }
 
@@ -239,8 +246,13 @@ struct ExpenseFormView: View {
 
     /// The plate prices as typed, or nil while one of them is not a valid amount.
     private var platePrices: [Money]? {
-        let prices = plateTexts.map(Money.init(typed:))
+        let prices = plateTypes.map { Money(typed: $0.price) }
         return prices.contains(nil) ? nil : prices.compactMap { $0 }
+    }
+
+    /// The plate prices for counting, with any not yet valid counted as nothing.
+    private var countingPrices: [Money] {
+        plateTypes.map { Money(typed: $0.price) ?? .zero }
     }
 
     /// The plates counted so far, at the current prices.
@@ -253,7 +265,7 @@ struct ExpenseFormView: View {
 
     private func save() {
         guard let input = checked?.input else { return }
-        if splitMode == .plates, let platePrices { PlatePrices.remembered = platePrices }
+        if splitMode == .plates { RememberedPlates.value = plateTypes }
         isWorking = true
         Task {
             do {

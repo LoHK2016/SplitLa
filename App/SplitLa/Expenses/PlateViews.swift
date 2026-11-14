@@ -1,106 +1,168 @@
 import Ledger
 import SwiftUI
 
-/// The plate prices used last time on this iPhone, so the next meal at the same place is quick.
-/// A convenience only: nothing here is shared with the Group or the server.
-enum PlatePrices {
-    private static let key = "platePrices"
-    /// A typical conveyor-belt sushi price list, used until someone saves their own.
-    static let starting = [12, 17, 22, 27].map(Money.init(dollars:))
+/// One kind of plate on the belt: its colour, its name, and its price as typed.
+struct PlateType: Codable, Hashable, Identifiable {
+    enum Kind: String, Codable { case red, silver, gold, black, custom }
 
-    static var remembered: [Money] {
-        get {
-            let cents = UserDefaults.standard.array(forKey: key) as? [Int] ?? []
-            return cents.isEmpty ? starting : cents.map(Money.init(cents:))
+    var id = UUID()
+    var kind: Kind
+    /// Only used for plates someone added themselves; the coloured plates name themselves.
+    var name = ""
+    var price: String
+    /// Which of the extra colours an added plate gets.
+    var colorIndex = 0
+
+    /// What the plate is called on screen.
+    func displayName(position: Int) -> String {
+        switch kind {
+        case .red: String(localized: "Red plate")
+        case .silver: String(localized: "Silver plate")
+        case .gold: String(localized: "Gold plate")
+        case .black: String(localized: "Black plate")
+        case .custom: name.trimmed.isEmpty ? String(localized: "Plate \(position + 1)") : name.trimmed
         }
-        set { UserDefaults.standard.set(newValue.map(\.cents), forKey: key) }
+    }
+
+    var color: Color {
+        switch kind {
+        case .red: Color(red: 0.85, green: 0.20, blue: 0.17)
+        case .silver: Color(red: 0.74, green: 0.76, blue: 0.79)
+        case .gold: Color(red: 0.85, green: 0.65, blue: 0.13)
+        case .black: Color(red: 0.11, green: 0.11, blue: 0.12)
+        case .custom: Self.extraColors[colorIndex % Self.extraColors.count]
+        }
+    }
+
+    static let extraColors: [Color] = [.blue, .green, .purple, .orange, .pink, .teal]
+
+    /// Sushiro's plates, the starting point.
+    static let sushiro: [PlateType] = [
+        PlateType(kind: .red, price: "12"),
+        PlateType(kind: .silver, price: "17"),
+        PlateType(kind: .gold, price: "22"),
+        PlateType(kind: .black, price: "27"),
+    ]
+}
+
+/// The plates used last time on this iPhone, so the next meal at the same place is quick.
+/// A convenience only: nothing here is shared with the Group or the server.
+enum RememberedPlates {
+    private static let key = "plateTypes"
+
+    static var value: [PlateType] {
+        get {
+            guard let data = UserDefaults.standard.data(forKey: key),
+                  let saved = try? JSONDecoder().decode([PlateType].self, from: data), !saved.isEmpty
+            else { return PlateType.sushiro }
+            return saved
+        }
+        set { UserDefaults.standard.set(try? JSONEncoder().encode(newValue), forKey: key) }
     }
 }
 
-/// The price of each kind of plate. Prices differ between restaurants, so they can be changed,
-/// added or removed.
+/// A plate's colour as a small circle, outlined so silver and black show on any background.
+struct PlateDot: View {
+    let color: Color
+    var size: CGFloat = 22
+
+    var body: some View {
+        Circle()
+            .fill(color)
+            .overlay(Circle().strokeBorder(Color.primary.opacity(0.18), lineWidth: 1))
+            .frame(width: size, height: size)
+            .accessibilityHidden(true)
+    }
+}
+
+/// The kinds of plate and their prices. Starts with Sushiro's; prices can be changed, plates
+/// added (with a name) or removed.
 struct PlatePricesSection: View {
-    @Binding var texts: [String]
+    @Binding var types: [PlateType]
+    /// Called with the position of a plate that was removed, so the counts can follow.
+    let removed: (Int) -> Void
 
     var body: some View {
         Section {
-            ForEach(texts.indices, id: \.self) { index in
-                LabeledContent("Plate \(index + 1)") {
-                    AmountField(title: "$0", text: $texts[index])
+            ForEach($types) { $type in
+                let position = types.firstIndex(of: type) ?? 0
+                HStack(spacing: 12) {
+                    PlateDot(color: type.color)
+                    if type.kind == .custom {
+                        TextField(String(localized: "Plate \(position + 1)"), text: $type.name)
+                    } else {
+                        Text(type.displayName(position: position))
+                    }
+                    Spacer(minLength: 8)
+                    AmountField(title: "$0", text: $type.price)
+                        .frame(maxWidth: 90)
                 }
             }
-            .onDelete { texts.remove(atOffsets: $0) }
-            Button("Add a Plate Price", systemImage: "plus") { texts.append("") }
-            Button("Use Usual Prices", systemImage: "arrow.counterclockwise") {
-                texts = PlatePrices.starting.map(\.plain)
+            .onDelete { offsets in
+                for index in offsets.sorted(by: >) {
+                    types.remove(at: index)
+                    removed(index)
+                }
+            }
+            Button("Add a Plate", systemImage: "plus") {
+                let used = types.filter { $0.kind == .custom }.count
+                types.append(PlateType(kind: .custom, price: "", colorIndex: used))
+            }
+            Button("Use Sushiro Plates", systemImage: "arrow.counterclockwise") {
+                for index in types.indices.reversed() { removed(index) }
+                types = PlateType.sushiro
             }
         } header: {
-            Text("Plate Prices")
+            Text("Plates")
         } footer: {
-            Text("Set these to the prices on the restaurant’s menu. Swipe to remove one.")
+            Text("Starts with Sushiro’s plates. Change a price, add your own plate with a name, or swipe left to remove one.")
         }
     }
 }
 
-/// One person's plates: their amount so far, and a counter for each plate price.
-struct PlateCounter: View {
+/// One person's plates: a native stepper for each kind of plate, and what they come to.
+struct PlateCounterSection: View {
     let name: String
     let member: MemberID
+    let types: [PlateType]
+    /// The price of each plate, with any not yet valid counted as nothing.
     let prices: [Money]
     @Binding var plates: PlateTally
 
     var body: some View {
-        let tally = PlateTally(prices: prices, counts: plates.counts)
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Text(name).font(.headline)
-                Spacer()
-                Text((tally.amounts[member] ?? .zero).description)
-                    .font(.system(.body, design: .rounded).weight(.bold))
-                    .monospacedDigit()
-                    .foregroundStyle(tally.amounts[member] == nil ? .secondary : .primary)
-            }
-            LazyVGrid(columns: [GridItem(.flexible(), spacing: 8), GridItem(.flexible(), spacing: 8)], spacing: 8) {
-                ForEach(prices.indices, id: \.self) { index in
-                    let count = plates.count(of: member, priceAt: index)
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text(prices[index].description)
-                            .font(.caption.weight(.semibold))
-                            .monospacedDigit()
-                            .foregroundStyle(.secondary)
-                        HStack(spacing: 0) {
-                            Button { change(-1, at: index) } label: {
-                                Image(systemName: "minus")
-                                    .font(.footnote.weight(.bold))
-                                    .frame(width: 34, height: 34)
-                                    .background(Color(.systemBackground), in: Circle())
-                            }
-                            .disabled(count == 0)
-                            .accessibilityLabel("One fewer \(prices[index].description) plate for \(name)")
-                            Text(verbatim: String(count))
-                                .font(.system(.title3, design: .rounded).weight(.bold))
+        let amount = PlateTally(prices: prices, counts: plates.counts).amounts[member]
+        Section {
+            ForEach(Array(types.enumerated()), id: \.element.id) { index, type in
+                let count = plates.count(of: member, priceAt: index)
+                Stepper(value: Binding(get: { count }, set: { change($0 - count, at: index) }), in: 0...99) {
+                    HStack(spacing: 12) {
+                        PlateDot(color: type.color)
+                        VStack(alignment: .leading, spacing: 1) {
+                            Text(type.displayName(position: index))
+                            Text(prices[index].description)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
                                 .monospacedDigit()
-                                .frame(maxWidth: .infinity)
-                            Button { change(1, at: index) } label: {
-                                Image(systemName: "plus")
-                                    .font(.footnote.weight(.bold))
-                                    .foregroundStyle(.white)
-                                    .frame(width: 34, height: 34)
-                                    .background(Color.accentColor, in: Circle())
-                            }
-                            .accessibilityLabel("One more \(prices[index].description) plate for \(name)")
                         }
+                        Spacer(minLength: 4)
+                        Text(verbatim: String(count))
+                            .font(.system(.title3, design: .rounded).weight(.bold))
+                            .monospacedDigit()
+                            .foregroundStyle(count == 0 ? .tertiary : .primary)
                     }
-                    // Without this, a tap anywhere in the row would press every button in it.
-                    .buttonStyle(.borderless)
-                    .padding(10)
-                    .background(
-                        count > 0 ? Color.accentColor.opacity(0.10) : Color(.tertiarySystemFill),
-                        in: RoundedRectangle(cornerRadius: 12))
                 }
+                .accessibilityValue(Text("\(count) plates"))
             }
+        } header: {
+            HStack {
+                Text(name)
+                Spacer()
+                Text((amount ?? .zero).description).monospacedDigit()
+            }
+            .font(.headline)
+            .foregroundStyle(amount == nil ? .secondary : .primary)
+            .textCase(nil)
         }
-        .padding(.vertical, 4)
     }
 
     private func change(_ amount: Int, at index: Int) {
